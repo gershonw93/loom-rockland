@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
-import { LoomMark } from "@/components/LoomMark";
+import { Logo } from "@/components/Logo";
 import type { SubmissionRecord } from "@/lib/types";
 
 const LABELS = new Map(ELIGIBILITY_CATEGORIES.map((c) => [c.value, c.label]));
@@ -117,7 +117,7 @@ export default function AdminPage() {
       <div className="admin-wrap">
         <div className="card login-card">
           <div style={{ textAlign: "center", marginBottom: 18 }}>
-            <LoomMark size={22} />
+            <Logo variant="full" height={46} />
           </div>
           <h2 style={{ textAlign: "center", marginTop: 0 }}>Admin sign in</h2>
           <form
@@ -153,7 +153,7 @@ export default function AdminPage() {
     <div className="admin-wrap">
       <div className="admin-bar">
         <div>
-          <LoomMark size={20} />
+          <Logo variant="mark" height={28} />
           <h2 style={{ margin: "10px 0 0" }}>Enrollment submissions</h2>
         </div>
         <button className="btn-ghost" onClick={logout}>
