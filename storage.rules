@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// Insurance card photos are uploaded and read only by the Next.js server via
+// the Firebase Admin SDK (which bypasses these rules). Deny all direct client
+// access; the admin export hands out short-lived signed URLs instead.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
