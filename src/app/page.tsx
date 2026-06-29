@@ -17,6 +17,9 @@ const QUALIFY = [
 export default function Home() {
   return (
     <main>
+      <div className="announce">
+        ✓ A free program for <strong>Medicaid members</strong> in Rockland County
+      </div>
       <header className="site-header">
         <Logo variant="mark" height={30} className="mark" />
         <div className="right">
@@ -33,7 +36,7 @@ export default function Home() {
             A Helping <span className="accent">Hand Delivered</span>
           </h1>
           <p className="sub">Weekly Meal Boxes &amp; Support Services</p>
-          <span className="badge">Free for eligible Medicaid members</span>
+          <span className="badge">Free for Medicaid members · Rockland County</span>
           <div className="hero-cta">
             <Link href="/apply" className="btn btn-primary">
               Apply Today →

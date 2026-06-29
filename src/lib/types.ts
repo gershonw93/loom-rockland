@@ -23,9 +23,20 @@ export interface Submission {
   familyMembers: number;
   medicaidIds: string[]; // CINs
   photos: InsurancePhoto[];
+  agentCode: string; // referring agent's code ("" if none)
+  agentName: string; // denormalised agent name
+  status: string; // contact lifecycle status
   createdAt: string; // ISO string (serialised for the client)
 }
 
 export interface SubmissionRecord extends Submission {
   id: string;
+}
+
+export interface Agent {
+  id: string; // == code
+  code: string;
+  name: string;
+  active: boolean;
+  createdAt: string; // ISO
 }

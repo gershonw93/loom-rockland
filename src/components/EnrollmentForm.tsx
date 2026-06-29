@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 import { InsuranceExamples } from "@/components/InsuranceExamples";
 
@@ -10,6 +10,7 @@ const STEPS = ["Referral", "Your details", "Eligibility", "Insurance"];
 
 export function EnrollmentForm() {
   const [step, setStep] = useState(0);
+  const [ref, setRef] = useState("");
   const [eligibility, setEligibility] = useState<string[]>([]);
   const [cins, setCins] = useState<string[]>([""]);
   const [photos, setPhotos] = useState<File[]>([]);
@@ -21,6 +22,12 @@ export function EnrollmentForm() {
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const last = STEPS.length - 1;
+
+  // capture the referring agent's code from the link (?ref=CODE)
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get("ref");
+    if (code) setRef(code.toLowerCase());
+  }, []);
 
   function toggleEligibility(value: string) {
     setEligibility((prev) =>
@@ -145,9 +152,20 @@ export function EnrollmentForm() {
         Step {step + 1} of {STEPS.length} · {STEPS[step]}
       </p>
 
+      <div className="medicaid-note">
+        <strong>This program is for Medicaid members.</strong> You&apos;ll need
+        your Medicaid ID (CIN) or insurance card to complete enrollment.
+      </div>
+
       <form onSubmit={onSubmit} noValidate>
+        <input type="hidden" name="ref" value={ref} />
         <div className="wizard-card">
           {error && <div className="alert error">{error}</div>}
+          {ref && step === 0 && (
+            <div className="ref-badge">
+              ✓ You&apos;re applying through a LOOM agent referral.
+            </div>
+          )}
 
           {/* STEP 1 — Referral */}
           <div

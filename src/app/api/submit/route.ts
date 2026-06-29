@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { db, bucket, SUBMISSIONS_COLLECTION } from "@/lib/firebaseAdmin";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
+import { getAgent } from "@/lib/agents";
+import { DEFAULT_STATUS } from "@/lib/status";
 import type { InsurancePhoto } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -34,6 +36,7 @@ export async function POST(req: Request) {
   const zip = str(form, "zip");
   const phone = str(form, "phone");
   const familyMembersRaw = str(form, "familyMembers");
+  const agentCode = str(form, "ref").toLowerCase();
 
   const eligibility = form
     .getAll("eligibility")
@@ -122,6 +125,17 @@ export async function POST(req: Request) {
     );
   }
 
+  // ── Resolve referring agent (from the ?ref= link) ─────────────
+  let resolvedAgentCode = "";
+  let agentName = "";
+  if (agentCode) {
+    const agent = await getAgent(agentCode).catch(() => null);
+    if (agent) {
+      resolvedAgentCode = agent.code;
+      agentName = agent.name;
+    }
+  }
+
   // ── Persist submission ────────────────────────────────────────
   try {
     await docRef.set({
@@ -135,6 +149,9 @@ export async function POST(req: Request) {
       familyMembers,
       medicaidIds,
       photos,
+      agentCode: resolvedAgentCode,
+      agentName,
+      status: DEFAULT_STATUS,
       createdAt: FieldValue.serverTimestamp(),
     });
   } catch (err) {

@@ -2,6 +2,7 @@ import "server-only";
 import { Timestamp } from "firebase-admin/firestore";
 import { db, bucket, SUBMISSIONS_COLLECTION } from "@/lib/firebaseAdmin";
 import { eligibilityLabel } from "@/lib/eligibility";
+import { statusLabel } from "@/lib/status";
 import type { SubmissionRecord } from "@/lib/types";
 
 export interface DateRange {
@@ -58,9 +59,23 @@ export async function fetchSubmissions(
       familyMembers: data.familyMembers ?? 0,
       medicaidIds: Array.isArray(data.medicaidIds) ? data.medicaidIds : [],
       photos: Array.isArray(data.photos) ? data.photos : [],
+      agentCode: data.agentCode ?? "",
+      agentName: data.agentName ?? "",
+      status: data.status ?? "new",
       createdAt,
     };
   });
+}
+
+/** Update the lifecycle status of a single submission. */
+export async function updateSubmissionStatus(
+  id: string,
+  status: string
+): Promise<void> {
+  await db()
+    .collection(SUBMISSIONS_COLLECTION)
+    .doc(id)
+    .update({ status, statusUpdatedAt: Timestamp.now() });
 }
 
 /** Generate a temporary signed URL for a stored insurance photo. */
@@ -81,6 +96,8 @@ async function signedUrl(path: string): Promise<string> {
 const CSV_HEADERS = [
   "Submission ID",
   "Submitted At",
+  "Status",
+  "Agent",
   "Referred By",
   "First Name",
   "Last Name",
@@ -116,6 +133,8 @@ export async function buildCsv(rows: SubmissionRecord[]): Promise<string> {
     const cells = [
       r.id,
       r.createdAt ? new Date(r.createdAt).toLocaleString("en-US") : "",
+      statusLabel(r.status),
+      r.agentName || r.agentCode || "—",
       r.referredBy,
       r.firstName,
       r.lastName,
