@@ -52,12 +52,36 @@ npm install
 npm run dev      # http://localhost:3000  (form)  ·  /admin (dashboard)
 ```
 
-## 5. Deploy to Vercel
+## 5. Deploy to Firebase App Hosting (GitHub)
 
-1. Import the repo in Vercel (framework auto-detected as Next.js).
-2. Add the same five environment variables under **Settings → Environment
-   Variables** (Production + Preview).
-3. Deploy. The form is at `/`, the admin dashboard at `/admin`.
+The repo ships an `apphosting.yaml`. Non-secret config (project id, client
+email, storage bucket) is inline; the private key and admin password come from
+Cloud Secret Manager.
+
+1. **Enable billing:** Firebase console → upgrade to the **Blaze** plan (App
+   Hosting requires it; this app's usage stays within the free allotment).
+2. **Create the two secrets** (Firebase CLI, runs on your machine):
+   ```bash
+   npm i -g firebase-tools && firebase login
+   firebase apphosting:secrets:set firebase-private-key   # paste the JSON private_key
+   firebase apphosting:secrets:set admin-password         # choose the /admin password
+   ```
+   (Each command also grants the App Hosting service account read access.)
+3. **Create the backend:** Firebase console → **Build → App Hosting → Get
+   started** → connect your GitHub account and pick this repo + the deploy
+   branch. App Hosting auto-detects Next.js and reads `apphosting.yaml`.
+4. **Deploy:** the first rollout builds and goes live; every push to the chosen
+   branch redeploys automatically. The form is at `/`, the admin at `/admin`.
+
+> The Admin SDK falls back to Application Default Credentials on App Hosting, so
+> the runtime works even without the explicit key — but keeping
+> `firebase-private-key` set guarantees signed photo links work without extra
+> IAM grants.
+
+### Alternative: deploy to Vercel
+
+Import the repo in Vercel, add the five env vars from `.env.example` under
+**Settings → Environment Variables**, and deploy.
 
 ## CSV export
 

@@ -1,0 +1,37 @@
+# Firebase App Hosting configuration.
+# Docs: https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  # Small program — keep instances low to stay well within the free allotment.
+  minInstances: 0
+  maxInstances: 2
+
+env:
+  # Non-secret identifiers — safe to keep in source.
+  - variable: FIREBASE_PROJECT_ID
+    value: loom-rockland
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: FIREBASE_CLIENT_EMAIL
+    value: firebase-adminsdk-fbsvc@loom-rockland.iam.gserviceaccount.com
+    availability:
+      - RUNTIME
+  - variable: FIREBASE_STORAGE_BUCKET
+    value: loom-rockland.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+
+  # Secrets — stored in Cloud Secret Manager, never in source.
+  # Create them with:
+  #   firebase apphosting:secrets:set firebase-private-key
+  #   firebase apphosting:secrets:set admin-password
+  - variable: FIREBASE_PRIVATE_KEY
+    secret: firebase-private-key
+    availability:
+      - RUNTIME
+  - variable: ADMIN_PASSWORD
+    secret: admin-password
+    availability:
+      - RUNTIME
