@@ -497,6 +497,7 @@ export default function AdminPage() {
               <table>
                 <thead>
                   <tr>
+                    <th>Form #</th>
                     <th>Status</th>
                     <th>Submitted</th>
                     <th>Name</th>
@@ -512,6 +513,9 @@ export default function AdminPage() {
                 <tbody>
                   {filtered.map((r) => (
                     <tr key={r.id} className={r.archived ? "archived-row" : ""}>
+                      <td style={{ fontWeight: 700, color: "var(--deep)" }}>
+                        {r.formNumber ? `#${r.formNumber}` : "—"}
+                      </td>
                       <td>
                         <select
                           className="status-select"

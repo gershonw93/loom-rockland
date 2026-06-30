@@ -30,11 +30,12 @@ export function EnrollmentForm() {
   const [eligibility, setEligibility] = useState<string[]>([]);
   const [familyCount, setFamilyCount] = useState(1);
   const [members, setMembers] = useState<Member[]>([]);
-  const [cins, setCins] = useState<string[]>([""]);
+  const [cin, setCin] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const [formNumber, setFormNumber] = useState<number | null>(null);
 
   const fileInput = useRef<HTMLInputElement>(null);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -84,10 +85,6 @@ export function EnrollmentForm() {
     setPhotos((prev) => [...prev, ...incoming]);
   }
 
-  function updateCin(i: number, val: string) {
-    setCins((prev) => prev.map((c, idx) => (idx === i ? val : c)));
-  }
-
   function validateStep(idx: number): boolean {
     const container = stepRefs.current[idx];
     if (container) {
@@ -133,10 +130,7 @@ export function EnrollmentForm() {
 
     const form = new FormData(e.currentTarget);
     eligibility.forEach((v) => form.append("eligibility", v));
-    cins
-      .map((c) => c.trim())
-      .filter(Boolean)
-      .forEach((c) => form.append("medicaidIds", c));
+    if (cin.trim()) form.append("medicaidIds", cin.trim());
     photos.forEach((f) => form.append("photos", f));
 
     setSubmitting(true);
@@ -144,6 +138,7 @@ export function EnrollmentForm() {
       const res = await fetch("/api/submit", { method: "POST", body: form });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || t("err.generic"));
+      setFormNumber(typeof data.formNumber === "number" ? data.formNumber : null);
       setDone(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
@@ -159,6 +154,12 @@ export function EnrollmentForm() {
         <div className="wizard-card success">
           <div className="seal">✓</div>
           <h2>{t("ok.title")}</h2>
+          {formNumber && (
+            <div className="form-number">
+              <span className="fn-label">{t("ok.formNumberLabel")}</span>
+              <span className="fn-value">#{formNumber}</span>
+            </div>
+          )}
           <p>{t("ok.body")}</p>
           <a href="/" className="btn btn-ghost">
             {t("ok.back")}
@@ -417,35 +418,12 @@ export function EnrollmentForm() {
 
             <div className="field">
               <p className="hint">{t("f.cinHint")}</p>
-              {cins.map((c, i) => (
-                <div className="repeat-row" key={i}>
-                  <input
-                    type="text"
-                    value={c}
-                    placeholder={t("f.cinPh", { n: i + 1 })}
-                    onChange={(e) => updateCin(i, e.target.value)}
-                  />
-                  {cins.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove"
-                      aria-label="Remove CIN"
-                      onClick={() =>
-                        setCins((prev) => prev.filter((_, idx) => idx !== i))
-                      }
-                    >
-                      ×
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button
-                type="button"
-                className="btn-add"
-                onClick={() => setCins((prev) => [...prev, ""])}
-              >
-                {t("f.addCin")}
-              </button>
+              <input
+                type="text"
+                value={cin}
+                placeholder={t("f.cinPh", { n: 1 })}
+                onChange={(e) => setCin(e.target.value)}
+              />
             </div>
 
             {/* Auto-generated household member details */}

@@ -915,6 +915,30 @@ select:focus {
 .success h2 {
   margin: 0 0 8px;
 }
+.form-number {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--lav-soft);
+  border: 1.5px solid var(--brand-lavender, #cfc6f7);
+  border-radius: 12px;
+  padding: 12px 26px;
+  margin: 6px 0 16px;
+}
+.form-number .fn-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.form-number .fn-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--purple);
+  letter-spacing: 0.01em;
+}
 .success p {
   color: var(--muted);
   max-width: 44ch;

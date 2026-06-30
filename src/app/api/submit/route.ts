@@ -3,6 +3,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import { db, bucket, SUBMISSIONS_COLLECTION } from "@/lib/firebaseAdmin";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 import { getAgent } from "@/lib/agents";
+import { nextFormNumber } from "@/lib/counter";
 import { DEFAULT_STATUS } from "@/lib/status";
 import type { InsurancePhoto } from "@/lib/types";
 
@@ -162,9 +163,22 @@ export async function POST(req: Request) {
     }
   }
 
+  // ── Reserve a sequential form number ──────────────────────────
+  let formNumber: number;
+  try {
+    formNumber = await nextFormNumber();
+  } catch (err) {
+    console.error("form number assignment failed", err);
+    return NextResponse.json(
+      { error: "Could not assign a form number. Please try again." },
+      { status: 500 }
+    );
+  }
+
   // ── Persist submission ────────────────────────────────────────
   try {
     await docRef.set({
+      formNumber,
       referredBy,
       firstName,
       lastName,
@@ -190,5 +204,5 @@ export async function POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, id: docRef.id });
+  return NextResponse.json({ ok: true, id: docRef.id, formNumber });
 }

@@ -122,7 +122,7 @@ const en: Dict = {
     "Please upload photos of insurance cards for yourself and all family members listed in this application.",
   "f.dropzone": "Click to choose a file or drag here",
   "f.cin": "Medicaid ID# (CIN) — if no photos",
-  "f.cinHint": "Add one CIN per family member, if applicable.",
+  "f.cinHint": "Enter the main applicant's Medicaid CIN, if you have it.",
   "f.cinPh": "Medicaid CIN #{n}",
   "f.addCin": "+ Add another CIN",
 
@@ -155,6 +155,7 @@ const en: Dict = {
   "btn.submitting": "Submitting…",
 
   "ok.title": "Thank you for your application!",
+  "ok.formNumberLabel": "Your application number",
   "ok.body":
     "Your information has been received securely. A LOOM Care Team representative will contact you within 24–48 hours to finalize your enrollment and schedule your home support.",
   "ok.back": "Back to home",
@@ -267,7 +268,7 @@ const es: Dict = {
     "Por favor sube fotos de las tarjetas de seguro tuyas y de todos los familiares incluidos en esta solicitud.",
   "f.dropzone": "Haz clic para elegir un archivo o arrástralo aquí",
   "f.cin": "Identificación de Medicaid (CIN) — si no hay fotos",
-  "f.cinHint": "Agrega un CIN por cada familiar, si aplica.",
+  "f.cinHint": "Ingresa el CIN de Medicaid del solicitante principal, si lo tienes.",
   "f.cinPh": "CIN de Medicaid #{n}",
   "f.addCin": "+ Agregar otro CIN",
 
@@ -300,6 +301,7 @@ const es: Dict = {
   "btn.submitting": "Enviando…",
 
   "ok.title": "¡Gracias por tu solicitud!",
+  "ok.formNumberLabel": "Tu número de solicitud",
   "ok.body":
     "Tu información se recibió de forma segura. Un representante del Equipo de Cuidado de LOOM te contactará en 24–48 horas para finalizar tu inscripción y programar tu apoyo a domicilio.",
   "ok.back": "Volver al inicio",
@@ -439,7 +441,7 @@ const ht: Dict = {
     "Tanpri telechaje foto kat asirans pou ou menm ak tout manm fanmi ki nan aplikasyon sa a.",
   "f.dropzone": "Klike pou chwazi yon fichye oswa trennen l isit la",
   "f.cin": "ID Medicaid (CIN) — si pa gen foto",
-  "f.cinHint": "Ajoute yon CIN pou chak manm fanmi, si sa aplikab.",
+  "f.cinHint": "Antre CIN Medicaid aplikan prensipal la, si ou genyen l.",
   "f.cinPh": "CIN Medicaid #{n}",
   "f.addCin": "+ Ajoute yon lòt CIN",
 
@@ -472,6 +474,7 @@ const ht: Dict = {
   "btn.submitting": "N ap voye…",
 
   "ok.title": "Mèsi pou aplikasyon w!",
+  "ok.formNumberLabel": "Nimewo aplikasyon w",
   "ok.body":
     "Nou resevwa enfòmasyon w yo an sekirite. Yon reprezantan Ekip Swen LOOM ap kontakte w nan 24–48 èdtan pou fini enskripsyon w epi pwograme sipò lakay ou.",
   "ok.back": "Tounen nan akèy",

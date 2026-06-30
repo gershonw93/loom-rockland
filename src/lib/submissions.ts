@@ -44,6 +44,7 @@ export async function fetchSubmissions(
         : "";
     return {
       id: doc.id,
+      formNumber: typeof data.formNumber === "number" ? data.formNumber : 0,
       referredBy: data.referredBy ?? "",
       firstName: data.firstName ?? "",
       lastName: data.lastName ?? "",
@@ -108,6 +109,7 @@ async function signedUrl(path: string): Promise<string> {
 }
 
 const CSV_HEADERS = [
+  "Form #",
   "Submission ID",
   "Submitted At",
   "Status",
@@ -146,6 +148,7 @@ export async function buildCsv(rows: SubmissionRecord[]): Promise<string> {
       r.photos.map((p) => signedUrl(p.path))
     );
     const cells = [
+      r.formNumber || "",
       r.id,
       r.createdAt ? new Date(r.createdAt).toLocaleString("en-US") : "",
       statusLabel(r.status),

@@ -14,6 +14,7 @@ export interface FamilyMember {
 }
 
 export interface Submission {
+  formNumber: number; // sequential application number (from 860001)
   referredBy: string;
   firstName: string;
   lastName: string;
