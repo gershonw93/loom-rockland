@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import QRCode from "qrcode";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
+import { relationshipEn } from "@/lib/relationships";
 import { STATUSES, statusColor } from "@/lib/status";
 import { Logo } from "@/components/Logo";
 import type { Agent, SubmissionRecord } from "@/lib/types";
@@ -512,75 +513,95 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {filtered.map((r) => (
-                    <tr key={r.id} className={r.archived ? "archived-row" : ""}>
-                      <td style={{ fontWeight: 700, color: "var(--deep)" }}>
-                        {r.formNumber ? `#${r.formNumber}` : "—"}
-                      </td>
-                      <td>
-                        <select
-                          className="status-select"
-                          value={r.status}
-                          style={{ borderColor: statusColor(r.status) }}
-                          onChange={(e) => changeStatus(r.id, e.target.value)}
-                        >
-                          {STATUSES.map((s) => (
-                            <option key={s.value} value={s.value}>
-                              {s.label}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        {r.createdAt ? new Date(r.createdAt).toLocaleString("en-US") : "—"}
-                      </td>
-                      <td style={{ fontWeight: 600 }}>
-                        {r.firstName} {r.lastName}
-                        {r.archived && <span className="arch-badge">Archived</span>}
-                        <div style={{ fontWeight: 400, color: "var(--muted)", fontSize: 12 }}>
-                          DOB {r.dateOfBirth}
-                        </div>
-                      </td>
-                      <td>{r.phone}</td>
-                      <td>{r.agentName || "—"}</td>
-                      <td style={{ whiteSpace: "normal", minWidth: 220 }}>
-                        {r.eligibility.map((e) => (
-                          <span className="pill" key={e}>
-                            {(ELIG.get(e) ?? e).split(" – ")[0]}
-                          </span>
-                        ))}
-                      </td>
-                      <td>
-                        {r.familyMembers}
-                        {r.members.length > 0 && (
-                          <div
-                            style={{ fontSize: 11, color: "var(--muted)", whiteSpace: "normal", maxWidth: 180 }}
+                    <Fragment key={r.id}>
+                      {/* Primary applicant */}
+                      <tr className={r.archived ? "archived-row" : ""}>
+                        <td style={{ fontWeight: 700, color: "var(--deep)" }}>
+                          {r.formNumber ? `#${r.formNumber}` : "—"}
+                        </td>
+                        <td>
+                          <select
+                            className="status-select"
+                            value={r.status}
+                            style={{ borderColor: statusColor(r.status) }}
+                            onChange={(e) => changeStatus(r.id, e.target.value)}
                           >
-                            {r.members
-                              .map((m) => `${m.fullName}${m.relationship ? ` (${m.relationship})` : ""}`)
-                              .join(", ")}
+                            {STATUSES.map((s) => (
+                              <option key={s.value} value={s.value}>
+                                {s.label}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td>
+                          {r.createdAt ? new Date(r.createdAt).toLocaleString("en-US") : "—"}
+                        </td>
+                        <td style={{ fontWeight: 600 }}>
+                          {r.firstName} {r.lastName}
+                          {r.archived && <span className="arch-badge">Archived</span>}
+                          <div style={{ fontWeight: 400, color: "var(--muted)", fontSize: 12 }}>
+                            Primary applicant · DOB {r.dateOfBirth}
                           </div>
-                        )}
-                      </td>
-                      <td>{r.medicaidIds.join(", ") || "—"}</td>
-                      <td>{r.photos.length || "—"}</td>
-                      <td>
-                        {r.archived ? (
-                          <button
-                            className="link-btn"
-                            onClick={() => setArchived(r.id, false, `${r.firstName} ${r.lastName}`)}
-                          >
-                            ♻ Restore
-                          </button>
-                        ) : (
-                          <button
-                            className="link-btn archive"
-                            onClick={() => setArchived(r.id, true, `${r.firstName} ${r.lastName}`)}
-                          >
-                            🗄 Archive
-                          </button>
-                        )}
-                      </td>
-                    </tr>
+                        </td>
+                        <td>{r.phone}</td>
+                        <td>{r.agentName || "—"}</td>
+                        <td style={{ whiteSpace: "normal", minWidth: 220 }}>
+                          {r.eligibility.map((e) => (
+                            <span className="pill" key={e}>
+                              {(ELIG.get(e) ?? e).split(" – ")[0]}
+                            </span>
+                          ))}
+                        </td>
+                        <td>{r.familyMembers}</td>
+                        <td>{r.medicaidIds.join(", ") || "—"}</td>
+                        <td>{r.photos.length || "—"}</td>
+                        <td>
+                          {r.archived ? (
+                            <button
+                              className="link-btn"
+                              onClick={() => setArchived(r.id, false, `${r.firstName} ${r.lastName}`)}
+                            >
+                              ♻ Restore
+                            </button>
+                          ) : (
+                            <button
+                              className="link-btn archive"
+                              onClick={() => setArchived(r.id, true, `${r.firstName} ${r.lastName}`)}
+                            >
+                              🗄 Archive
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                      {/* One line per additional household member, same form # */}
+                      {r.members.map((m, i) => (
+                        <tr
+                          key={`${r.id}-m${i}`}
+                          className={`member-subrow${r.archived ? " archived-row" : ""}`}
+                        >
+                          <td className="subrow-formno">
+                            {r.formNumber ? `#${r.formNumber}` : ""}
+                          </td>
+                          <td />
+                          <td />
+                          <td>
+                            <span className="subrow-name">↳ {m.fullName}</span>
+                            <div style={{ color: "var(--muted)", fontSize: 12 }}>
+                              {m.relationship ? relationshipEn(m.relationship) : "Household member"}{" "}
+                              · under {r.firstName} {r.lastName}
+                              {m.dob ? ` · DOB ${m.dob}` : ""}
+                            </div>
+                          </td>
+                          <td />
+                          <td />
+                          <td />
+                          <td />
+                          <td>{m.cin || "—"}</td>
+                          <td />
+                          <td />
+                        </tr>
+                      ))}
+                    </Fragment>
                   ))}
                 </tbody>
               </table>

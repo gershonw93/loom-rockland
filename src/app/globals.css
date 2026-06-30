@@ -1432,3 +1432,20 @@ tbody tr:hover {
 .link-btn.archive:hover {
   color: var(--danger);
 }
+
+/* per-person sub-rows (household members under one form #) */
+.member-subrow td {
+  background: #faf9ff;
+  border-bottom: 1px solid var(--line);
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+.member-subrow .subrow-formno {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+.member-subrow .subrow-name {
+  font-weight: 600;
+  color: var(--deep);
+}

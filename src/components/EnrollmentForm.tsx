@@ -39,6 +39,7 @@ export function EnrollmentForm() {
 
   const fileInput = useRef<HTMLInputElement>(null);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const last = STEP_KEYS.length - 1;
 
@@ -118,8 +119,8 @@ export function EnrollmentForm() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function doSubmit() {
+    if (submitting) return;
     setError(null);
     for (let i = 0; i <= last; i++) {
       if (!validateStep(i)) {
@@ -127,8 +128,9 @@ export function EnrollmentForm() {
         return;
       }
     }
+    if (!formRef.current) return;
 
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(formRef.current);
     eligibility.forEach((v) => form.append("eligibility", v));
     if (cin.trim()) form.append("medicaidIds", cin.trim());
     photos.forEach((f) => form.append("photos", f));
@@ -194,7 +196,14 @@ export function EnrollmentForm() {
         {medicaidRest}
       </div>
 
-      <form onSubmit={onSubmit} noValidate>
+      <form
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault();
+          doSubmit();
+        }}
+        noValidate
+      >
         <input type="hidden" name="ref" value={ref} />
         <input type="hidden" name="membersJson" value={JSON.stringify(members)} />
         <div className="wizard-card">
@@ -505,26 +514,26 @@ export function EnrollmentForm() {
             )}
           </div>
 
-          {/* nav */}
+          {/* nav — button is ALWAYS type="button"; we submit programmatically
+              so a step transition can never trigger a native form submit. */}
           <div className="wizard-nav">
             {step > 0 && (
               <button type="button" className="btn-ghost" onClick={back}>
                 {t("btn.back")}
               </button>
             )}
-            {step < last ? (
-              <button type="button" className="btn btn-primary btn-block" onClick={next}>
-                {t("btn.continue")}
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="btn btn-primary btn-block"
-                disabled={submitting}
-              >
-                {submitting ? t("btn.submitting") : t("btn.submit")}
-              </button>
-            )}
+            <button
+              type="button"
+              className="btn btn-primary btn-block"
+              disabled={submitting}
+              onClick={() => (step < last ? next() : doSubmit())}
+            >
+              {step < last
+                ? t("btn.continue")
+                : submitting
+                  ? t("btn.submitting")
+                  : t("btn.submit")}
+            </button>
           </div>
         </div>
       </form>
