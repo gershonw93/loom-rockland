@@ -43,3 +43,6 @@ hero.png
 footer.png
 l-*.png
 a-*.png
+
+# screenshots at repo root (real assets live under public/ and src/app/)
+/*.png
