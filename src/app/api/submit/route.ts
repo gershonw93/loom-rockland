@@ -102,6 +102,12 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
+  if (medicaidIds.length === 0) {
+    return NextResponse.json(
+      { error: "The main applicant's Medicaid CIN is required." },
+      { status: 400 }
+    );
+  }
   const familyMembers = Number.parseInt(familyMembersRaw, 10);
   if (!Number.isFinite(familyMembers) || familyMembers < 1) {
     return NextResponse.json(

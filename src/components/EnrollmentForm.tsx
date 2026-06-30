@@ -426,10 +426,14 @@ export function EnrollmentForm() {
             </div>
 
             <div className="field">
-              <p className="hint">{t("f.cinHint")}</p>
+              <label>
+                {t("f.cinApplicant")}
+                <span className="req">*</span>
+              </label>
               <input
                 type="text"
                 value={cin}
+                required
                 placeholder={t("f.cinPlain")}
                 onChange={(e) => setCin(e.target.value)}
               />
