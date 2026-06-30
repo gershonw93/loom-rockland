@@ -1,15 +1,21 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
+
 /**
  * Reference cards shown on the Insurance step so applicants know where to find
  * their Medicaid ID / CIN. Stylised examples — not real cards.
  */
 export function InsuranceExamples() {
+  const { t } = useI18n();
+  const note = t("ins.note", { ex: "AB12345C" }).split("{b}");
+
   return (
     <div>
       <div className="ref-note">
-        💡 Your <strong>Medicaid ID (CIN)</strong> is the{" "}
-        <strong>Member ID / CIN#</strong> printed on your insurance card — for
-        example, <code>AB12345C</code>. Snap a clear photo of the card, or type
-        the number below. Here&apos;s where to look on common cards:
+        💡 {note[0]}
+        <strong>{t("ins.noteB")}</strong>
+        {note[1]}
       </div>
       <div className="ref-cards">
         <div>
@@ -20,7 +26,7 @@ export function InsuranceExamples() {
               <span className="cin">AB12345C</span>
             </div>
           </div>
-          <p className="ref-caption">Bottom-right: “CIN#”</p>
+          <p className="ref-caption">{t("ins.cap1")}</p>
         </div>
         <div>
           <div className="ref-card nys">
@@ -30,7 +36,7 @@ export function InsuranceExamples() {
               <span className="cin">XX00000X</span>
             </div>
           </div>
-          <p className="ref-caption">Front: “ID Number”</p>
+          <p className="ref-caption">{t("ins.cap2")}</p>
         </div>
         <div>
           <div className="ref-card uhc">
@@ -40,7 +46,7 @@ export function InsuranceExamples() {
               <span className="cin">123456789-00</span>
             </div>
           </div>
-          <p className="ref-caption">Under name: “Member ID”</p>
+          <p className="ref-caption">{t("ins.cap3")}</p>
         </div>
       </div>
     </div>

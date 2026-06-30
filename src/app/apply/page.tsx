@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { EnrollmentForm } from "@/components/EnrollmentForm";
-import { Logo } from "@/components/Logo";
+import { Brand } from "@/components/Brand";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export const metadata = {
   title: "Apply — LOOM Rockland",
@@ -11,11 +12,11 @@ export default function ApplyPage() {
     <main>
       <header className="site-header">
         <Link href="/">
-          <Logo variant="mark" height={30} className="mark" />
+          <Brand height={30} />
         </Link>
-        <Link href="/" className="btn-ghost" style={{ padding: "9px 18px" }}>
-          ← Home
-        </Link>
+        <div className="right">
+          <LanguageSwitcher />
+        </div>
       </header>
       <div className="apply-main">
         <EnrollmentForm />

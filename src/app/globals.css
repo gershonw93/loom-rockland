@@ -170,6 +170,62 @@ img {
   align-items: center;
 }
 
+/* brand lockup with Rockland sublabel */
+.brand-lock {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  line-height: 1;
+}
+.brand-rockland {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  margin-left: 3px;
+}
+.brand-rockland.deep {
+  color: var(--purple);
+}
+.brand-rockland.white {
+  color: var(--lilac);
+}
+
+/* language switcher */
+.lang-switch {
+  display: inline-flex;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.lang-switch button {
+  border: none;
+  background: transparent;
+  padding: 7px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+.lang-switch button.active {
+  background: var(--purple);
+  color: #fff;
+}
+.lang-switch.dark {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+}
+.lang-switch.dark button {
+  color: #e7defa;
+}
+.lang-switch.dark button.active {
+  background: #fff;
+  color: var(--deep);
+}
+
 /* ── Hero ─────────────────────────────────────────────────────── */
 .hero {
   position: relative;
@@ -1040,6 +1096,24 @@ tbody tr:hover {
 }
 .copy-btn.copied {
   background: var(--ok);
+}
+.agent-qr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.agent-qr img {
+  width: 88px;
+  height: 88px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.agent-qr .btn-ghost {
+  padding: 9px 14px;
+  font-size: 13.5px;
 }
 .add-agent {
   display: flex;

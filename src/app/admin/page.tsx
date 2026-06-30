@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import QRCode from "qrcode";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 import { STATUSES, statusColor } from "@/lib/status";
 import { Logo } from "@/components/Logo";
@@ -35,6 +36,7 @@ export default function AdminPage() {
 
   const [newAgent, setNewAgent] = useState("");
   const [copied, setCopied] = useState("");
+  const [qrs, setQrs] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setOrigin(window.location.origin);
@@ -120,6 +122,41 @@ export default function AdminPage() {
 
   function agentLink(code: string) {
     return `${origin}/apply?ref=${code}`;
+  }
+
+  // generate a QR code per agent link
+  useEffect(() => {
+    if (!origin || agents.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      const map: Record<string, string> = {};
+      for (const a of agents) {
+        try {
+          map[a.code] = await QRCode.toDataURL(`${origin}/apply?ref=${a.code}`, {
+            width: 480,
+            margin: 1,
+            color: { dark: "#2e1a47", light: "#ffffff" },
+          });
+        } catch {
+          /* ignore */
+        }
+      }
+      if (!cancelled) setQrs(map);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [agents, origin]);
+
+  function downloadQr(code: string, name: string) {
+    const url = qrs[code];
+    if (!url) return;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `loom-rockland-qr-${name.replace(/\s+/g, "-").toLowerCase()}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
   async function copyLink(code: string) {
     try {
@@ -531,6 +568,15 @@ export default function AdminPage() {
                       {copied === a.code ? "✓ Copied" : "Copy"}
                     </button>
                   </div>
+                  {qrs[a.code] && (
+                    <div className="agent-qr">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={qrs[a.code]} alt={`QR code for ${a.name}`} />
+                      <button className="btn-ghost" onClick={() => downloadQr(a.code, a.name)}>
+                        ⬇ Download QR
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
