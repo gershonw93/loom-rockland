@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   title: "LOOM Rockland — A Helping Hand Delivered",
   description:
     "LOOM Social Care Network · Rockland. Weekly meal boxes & support services, free for eligible Medicaid members. Apply online.",
-  icons: { icon: "/brand/loom-mark.png" },
 };
 
 export default function RootLayout({

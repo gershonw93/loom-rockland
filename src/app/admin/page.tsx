@@ -205,35 +205,35 @@ export default function AdminPage() {
     const week = t0 - 6 * 86400000;
     let today = 0;
     let wk = 0;
-    let enrolled = 0;
+    let approved = 0;
     for (const s of subs) {
       const t = new Date(s.createdAt).getTime();
       if (t >= t0) today++;
       if (t >= week) wk++;
-      if (s.status === "enrolled") enrolled++;
+      if (s.status === "approved") approved++;
     }
-    return { today, week: wk, total: subs.length, enrolled };
+    return { today, week: wk, total: subs.length, approved };
   }, [subs]);
 
   const leaderboard = useMemo(() => {
     const t0 = startOfToday();
     const map = new Map<
       string,
-      { key: string; name: string; total: number; today: number; enrolled: number }
+      { key: string; name: string; total: number; today: number; approved: number }
     >();
     // seed with all agents so 0-referral agents still show
     for (const a of agents) {
-      map.set(a.code, { key: a.code, name: a.name, total: 0, today: 0, enrolled: 0 });
+      map.set(a.code, { key: a.code, name: a.name, total: 0, today: 0, approved: 0 });
     }
     for (const s of subs) {
       const key = s.agentCode || "__direct";
       const name =
         s.agentName || (s.agentCode ? s.agentCode : "Direct / no agent");
       const e =
-        map.get(key) || { key, name, total: 0, today: 0, enrolled: 0 };
+        map.get(key) || { key, name, total: 0, today: 0, approved: 0 };
       e.total++;
       if (new Date(s.createdAt).getTime() >= t0) e.today++;
-      if (s.status === "enrolled") e.enrolled++;
+      if (s.status === "approved") e.approved++;
       map.set(key, e);
     }
     return [...map.values()].sort((a, b) => b.total - a.total);
@@ -341,8 +341,8 @@ export default function AdminPage() {
               <div className="l">Total submissions</div>
             </div>
             <div className="stat">
-              <div className="n">{stats.enrolled}</div>
-              <div className="l">Enrolled</div>
+              <div className="n">{stats.approved}</div>
+              <div className="l">Approved</div>
             </div>
           </div>
 
@@ -356,7 +356,7 @@ export default function AdminPage() {
                     <th style={{ width: "40%" }}>Referrals</th>
                     <th>Total</th>
                     <th>Today</th>
-                    <th>Enrolled</th>
+                    <th>Approved</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -378,7 +378,7 @@ export default function AdminPage() {
                         </td>
                         <td>{l.total}</td>
                         <td>{l.today}</td>
-                        <td>{l.enrolled}</td>
+                        <td>{l.approved}</td>
                       </tr>
                     ))
                   )}
