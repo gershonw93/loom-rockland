@@ -49,8 +49,34 @@ export async function POST(req: Request) {
     .map((v) => v.trim())
     .filter(Boolean);
 
+  // Additional household members (sent as a JSON string)
+  let members: {
+    fullName: string;
+    relationship: string;
+    dob: string;
+    cin: string;
+  }[] = [];
+  const membersRaw = str(form, "membersJson");
+  if (membersRaw) {
+    try {
+      const parsed = JSON.parse(membersRaw);
+      if (Array.isArray(parsed)) {
+        members = parsed
+          .map((m) => ({
+            fullName: String(m?.fullName ?? "").trim().slice(0, 120),
+            relationship: String(m?.relationship ?? "").trim().slice(0, 40),
+            dob: String(m?.dob ?? "").trim().slice(0, 20),
+            cin: String(m?.cin ?? "").trim().slice(0, 40),
+          }))
+          .filter((m) => m.fullName)
+          .slice(0, 30);
+      }
+    } catch {
+      /* ignore malformed members */
+    }
+  }
+
   const required: Record<string, string> = {
-    referredBy,
     firstName,
     lastName,
     dateOfBirth,
@@ -147,11 +173,13 @@ export async function POST(req: Request) {
       phone,
       eligibility,
       familyMembers,
+      members,
       medicaidIds,
       photos,
       agentCode: resolvedAgentCode,
       agentName,
       status: DEFAULT_STATUS,
+      archived: false,
       createdAt: FieldValue.serverTimestamp(),
     });
   } catch (err) {

@@ -6,6 +6,13 @@ export interface InsurancePhoto {
   size: number;
 }
 
+export interface FamilyMember {
+  fullName: string;
+  relationship: string; // relationship value (e.g. "spouse")
+  dob: string; // YYYY-MM-DD
+  cin: string; // Medicaid CIN (optional)
+}
+
 export interface Submission {
   referredBy: string;
   firstName: string;
@@ -21,11 +28,13 @@ export interface Submission {
   phone: string;
   eligibility: string[]; // category values
   familyMembers: number;
+  members: FamilyMember[]; // additional household members
   medicaidIds: string[]; // CINs
   photos: InsurancePhoto[];
   agentCode: string; // referring agent's code ("" if none)
   agentName: string; // denormalised agent name
   status: string; // contact lifecycle status
+  archived: boolean; // hidden from the active view but never deleted
   createdAt: string; // ISO string (serialised for the client)
 }
 

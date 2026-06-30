@@ -113,7 +113,10 @@ const en: Dict = {
   "s4.eyebrow": "Insurance",
   "s4.title": "Insurance information",
   "s4.hint":
-    "Upload a photo of each insurance card, or enter the Medicaid ID (CIN) numbers below.",
+    "Upload a photo of your insurance card to get approved faster — or enter your Medicaid ID (CIN) number below.",
+  "s4.fasterBadge": "⚡ Approved faster",
+  "s4.uploadLabel": "Upload your insurance card (recommended)",
+  "s4.orLabel": "Or enter your Medicaid ID (CIN)",
   "f.photos": "Insurance Card Photos",
   "f.photosHint":
     "Please upload photos of insurance cards for yourself and all family members listed in this application.",
@@ -122,6 +125,22 @@ const en: Dict = {
   "f.cinHint": "Add one CIN per family member, if applicable.",
   "f.cinPh": "Medicaid CIN #{n}",
   "f.addCin": "+ Add another CIN",
+
+  "members.title": "Add family members",
+  "members.hint":
+    "You listed {n} people in your household. Please add each additional family member below.",
+  "members.label": "Family member {n}",
+  "f.fullName": "Full Name",
+  "f.relationship": "Relationship",
+  "f.memberCin": "Medicaid ID# (CIN) — if no photo",
+  "rel.select": "Select…",
+  "rel.spouse": "Spouse",
+  "rel.child": "Child",
+  "rel.parent": "Parent",
+  "rel.sibling": "Sibling",
+  "rel.grandparent": "Grandparent",
+  "rel.grandchild": "Grandchild",
+  "rel.other": "Other",
 
   "ins.note":
     "Your {b} is the Member ID / CIN# printed on your insurance card — for example, {ex}. Snap a clear photo of the card, or type the number below. Here's where to look on common cards:",
@@ -239,7 +258,10 @@ const es: Dict = {
   "s4.eyebrow": "Seguro",
   "s4.title": "Información del seguro",
   "s4.hint":
-    "Sube una foto de cada tarjeta de seguro, o ingresa los números de identificación de Medicaid (CIN) abajo.",
+    "Sube una foto de tu tarjeta de seguro para que te aprueben más rápido — o ingresa tu número de identificación de Medicaid (CIN) abajo.",
+  "s4.fasterBadge": "⚡ Aprobación más rápida",
+  "s4.uploadLabel": "Sube tu tarjeta de seguro (recomendado)",
+  "s4.orLabel": "O ingresa tu identificación de Medicaid (CIN)",
   "f.photos": "Fotos de la tarjeta de seguro",
   "f.photosHint":
     "Por favor sube fotos de las tarjetas de seguro tuyas y de todos los familiares incluidos en esta solicitud.",
@@ -248,6 +270,22 @@ const es: Dict = {
   "f.cinHint": "Agrega un CIN por cada familiar, si aplica.",
   "f.cinPh": "CIN de Medicaid #{n}",
   "f.addCin": "+ Agregar otro CIN",
+
+  "members.title": "Agregar familiares",
+  "members.hint":
+    "Indicaste {n} personas en tu hogar. Por favor agrega cada familiar adicional a continuación.",
+  "members.label": "Familiar {n}",
+  "f.fullName": "Nombre completo",
+  "f.relationship": "Parentesco",
+  "f.memberCin": "Identificación de Medicaid (CIN) — si no hay foto",
+  "rel.select": "Selecciona…",
+  "rel.spouse": "Cónyuge",
+  "rel.child": "Hijo/a",
+  "rel.parent": "Padre/Madre",
+  "rel.sibling": "Hermano/a",
+  "rel.grandparent": "Abuelo/a",
+  "rel.grandchild": "Nieto/a",
+  "rel.other": "Otro",
 
   "ins.note":
     "Tu {b} es el Member ID / CIN# impreso en tu tarjeta de seguro — por ejemplo, {ex}. Toma una foto clara de la tarjeta, o escribe el número abajo. Aquí te mostramos dónde buscar en tarjetas comunes:",
@@ -392,7 +430,10 @@ const ht: Dict = {
   "s4.eyebrow": "Asirans",
   "s4.title": "Enfòmasyon asirans",
   "s4.hint":
-    "Telechaje yon foto chak kat asirans, oswa antre nimewo ID Medicaid (CIN) yo anba a.",
+    "Telechaje yon foto kat asirans ou pou yo apwouve w pi vit — oswa antre nimewo ID Medicaid (CIN) ou anba a.",
+  "s4.fasterBadge": "⚡ Apwouve pi vit",
+  "s4.uploadLabel": "Telechaje kat asirans ou (rekòmande)",
+  "s4.orLabel": "Oswa antre ID Medicaid (CIN) ou",
   "f.photos": "Foto kat asirans",
   "f.photosHint":
     "Tanpri telechaje foto kat asirans pou ou menm ak tout manm fanmi ki nan aplikasyon sa a.",
@@ -401,6 +442,22 @@ const ht: Dict = {
   "f.cinHint": "Ajoute yon CIN pou chak manm fanmi, si sa aplikab.",
   "f.cinPh": "CIN Medicaid #{n}",
   "f.addCin": "+ Ajoute yon lòt CIN",
+
+  "members.title": "Ajoute manm fanmi",
+  "members.hint":
+    "Ou make {n} moun nan kay ou. Tanpri ajoute chak lòt manm fanmi anba a.",
+  "members.label": "Manm fanmi {n}",
+  "f.fullName": "Non konplè",
+  "f.relationship": "Relasyon",
+  "f.memberCin": "ID Medicaid (CIN) — si pa gen foto",
+  "rel.select": "Chwazi…",
+  "rel.spouse": "Mari/Madanm",
+  "rel.child": "Pitit",
+  "rel.parent": "Paran",
+  "rel.sibling": "Frè/Sè",
+  "rel.grandparent": "Granparan",
+  "rel.grandchild": "Pititpitit",
+  "rel.other": "Lòt",
 
   "ins.note":
     "{b} ou se Member ID / CIN# ki enprime sou kat asirans ou — pa egzanp, {ex}. Pran yon foto klè nan kat la, oswa tape nimewo a anba a. Men kote pou w gade sou kat ki komen yo:",

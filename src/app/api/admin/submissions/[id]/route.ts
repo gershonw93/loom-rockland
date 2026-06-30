@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { isAuthorized } from "@/lib/auth";
-import { updateSubmissionStatus } from "@/lib/submissions";
+import {
+  updateSubmissionStatus,
+  updateSubmissionArchived,
+} from "@/lib/submissions";
 import { STATUS_VALUES } from "@/lib/status";
 
 export const runtime = "nodejs";
@@ -14,21 +17,30 @@ export async function PATCH(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  let status = "";
+
+  let body: { status?: unknown; archived?: unknown } = {};
   try {
-    const body = await req.json();
-    status = typeof body?.status === "string" ? body.status : "";
+    body = await req.json();
   } catch {
     /* ignore */
   }
-  if (!STATUS_VALUES.includes(status)) {
-    return NextResponse.json({ error: "Invalid status." }, { status: 400 });
-  }
+
   try {
-    await updateSubmissionStatus(id, status);
+    if (typeof body.archived === "boolean") {
+      await updateSubmissionArchived(id, body.archived);
+    }
+    if (typeof body.status === "string") {
+      if (!STATUS_VALUES.includes(body.status)) {
+        return NextResponse.json({ error: "Invalid status." }, { status: 400 });
+      }
+      await updateSubmissionStatus(id, body.status);
+    }
+    if (typeof body.archived !== "boolean" && typeof body.status !== "string") {
+      return NextResponse.json({ error: "Nothing to update." }, { status: 400 });
+    }
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("update status failed", err);
-    return NextResponse.json({ error: "Could not update status." }, { status: 500 });
+    console.error("update submission failed", err);
+    return NextResponse.json({ error: "Could not update." }, { status: 500 });
   }
 }

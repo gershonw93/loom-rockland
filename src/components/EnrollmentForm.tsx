@@ -2,17 +2,34 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
+import { RELATIONSHIPS } from "@/lib/relationships";
 import { InsuranceExamples } from "@/components/InsuranceExamples";
 import { useI18n, eligLabel } from "@/lib/i18n";
 
+interface Member {
+  fullName: string;
+  relationship: string;
+  dob: string;
+  cin: string;
+}
+const emptyMember = (): Member => ({
+  fullName: "",
+  relationship: "",
+  dob: "",
+  cin: "",
+});
+
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
-const STEP_KEYS = ["step.referral", "step.details", "step.eligibility", "step.insurance"];
+const STEP_KEYS = ["step.details", "step.eligibility", "step.insurance"];
+const ELIGIBILITY_STEP = 1;
 
 export function EnrollmentForm() {
   const { t } = useI18n();
   const [step, setStep] = useState(0);
   const [ref, setRef] = useState("");
   const [eligibility, setEligibility] = useState<string[]>([]);
+  const [familyCount, setFamilyCount] = useState(1);
+  const [members, setMembers] = useState<Member[]>([]);
   const [cins, setCins] = useState<string[]>([""]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -28,6 +45,26 @@ export function EnrollmentForm() {
     const code = new URLSearchParams(window.location.search).get("ref");
     if (code) setRef(code.toLowerCase());
   }, []);
+
+  // Auto-populate a detail block for every additional household member.
+  useEffect(() => {
+    const needed = Math.max(0, familyCount - 1);
+    setMembers((prev) => {
+      if (prev.length === needed) return prev;
+      if (prev.length < needed)
+        return [
+          ...prev,
+          ...Array.from({ length: needed - prev.length }, emptyMember),
+        ];
+      return prev.slice(0, needed);
+    });
+  }, [familyCount]);
+
+  function updateMember(i: number, field: keyof Member, val: string) {
+    setMembers((prev) =>
+      prev.map((m, idx) => (idx === i ? { ...m, [field]: val } : m))
+    );
+  }
 
   function toggleEligibility(value: string) {
     setEligibility((prev) =>
@@ -64,7 +101,7 @@ export function EnrollmentForm() {
         }
       }
     }
-    if (idx === 2 && eligibility.length === 0) {
+    if (idx === ELIGIBILITY_STEP && eligibility.length === 0) {
       setError(t("err.eligibility"));
       return false;
     }
@@ -158,43 +195,19 @@ export function EnrollmentForm() {
 
       <form onSubmit={onSubmit} noValidate>
         <input type="hidden" name="ref" value={ref} />
+        <input type="hidden" name="membersJson" value={JSON.stringify(members)} />
         <div className="wizard-card">
           {error && <div className="alert error">{error}</div>}
           {ref && step === 0 && (
             <div className="ref-badge">{t("wiz.refBadge")}</div>
           )}
 
-          {/* STEP 1 — Referral */}
+          {/* STEP 1 — Details */}
           <div
             ref={(el) => {
               stepRefs.current[0] = el;
             }}
             style={{ display: step === 0 ? "block" : "none" }}
-          >
-            <p className="step-eyebrow">{t("s1.eyebrow")}</p>
-            <h2>{t("s1.title")}</h2>
-            <p className="step-hint">{t("s1.hint")}</p>
-            <div className="field">
-              <label htmlFor="referredBy">
-                {t("s1.label")}
-                <span className="req">*</span>
-              </label>
-              <input
-                id="referredBy"
-                name="referredBy"
-                type="text"
-                required
-                placeholder={t("s1.placeholder")}
-              />
-            </div>
-          </div>
-
-          {/* STEP 2 — Details */}
-          <div
-            ref={(el) => {
-              stepRefs.current[1] = el;
-            }}
-            style={{ display: step === 1 ? "block" : "none" }}
           >
             <p className="step-eyebrow">{t("s2.eyebrow")}</p>
             <h2>{t("s2.title")}</h2>
@@ -283,12 +296,12 @@ export function EnrollmentForm() {
             </div>
           </div>
 
-          {/* STEP 3 — Eligibility */}
+          {/* STEP 2 — Eligibility */}
           <div
             ref={(el) => {
-              stepRefs.current[2] = el;
+              stepRefs.current[1] = el;
             }}
-            style={{ display: step === 2 ? "block" : "none" }}
+            style={{ display: step === 1 ? "block" : "none" }}
           >
             <p className="step-eyebrow">{t("s3.eyebrow")}</p>
             <h2>{t("s3.title")}</h2>
@@ -320,20 +333,25 @@ export function EnrollmentForm() {
                 name="familyMembers"
                 type="number"
                 min={1}
+                max={30}
                 step={1}
                 required
-                defaultValue={1}
+                value={familyCount}
+                onChange={(e) => {
+                  const n = parseInt(e.target.value, 10);
+                  setFamilyCount(Number.isFinite(n) ? Math.min(30, Math.max(1, n)) : 1);
+                }}
                 style={{ maxWidth: 160 }}
               />
             </div>
           </div>
 
-          {/* STEP 4 — Insurance */}
+          {/* STEP 3 — Insurance */}
           <div
             ref={(el) => {
-              stepRefs.current[3] = el;
+              stepRefs.current[2] = el;
             }}
-            style={{ display: step === 3 ? "block" : "none" }}
+            style={{ display: step === 2 ? "block" : "none" }}
           >
             <p className="step-eyebrow">{t("s4.eyebrow")}</p>
             <h2>{t("s4.title")}</h2>
@@ -341,8 +359,12 @@ export function EnrollmentForm() {
 
             <InsuranceExamples />
 
+            {/* Photo upload — recommended / faster approval */}
             <div className="field">
-              <label>{t("f.photos")}</label>
+              <label>
+                {t("s4.uploadLabel")}
+                <span className="faster-badge">{t("s4.fasterBadge")}</span>
+              </label>
               <p className="hint">{t("f.photosHint")}</p>
               <div
                 className="dropzone"
@@ -389,8 +411,11 @@ export function EnrollmentForm() {
               )}
             </div>
 
+            <div className="or-divider">
+              <span>{t("s4.orLabel")}</span>
+            </div>
+
             <div className="field">
-              <label>{t("f.cin")}</label>
               <p className="hint">{t("f.cinHint")}</p>
               {cins.map((c, i) => (
                 <div className="repeat-row" key={i}>
@@ -422,6 +447,84 @@ export function EnrollmentForm() {
                 {t("f.addCin")}
               </button>
             </div>
+
+            {/* Auto-generated household member details */}
+            {members.length > 0 && (
+              <div className="members-section">
+                <h3 className="members-title">{t("members.title")}</h3>
+                <p className="step-hint">
+                  {t("members.hint", { n: familyCount })}
+                </p>
+                {members.map((m, i) => (
+                  <div className="member-card" key={i}>
+                    <div className="member-head">
+                      {t("members.label", { n: i + 2 })}
+                    </div>
+                    <div className="field">
+                      <label>
+                        {t("f.fullName")}
+                        <span className="req">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={m.fullName}
+                        onChange={(e) =>
+                          updateMember(i, "fullName", e.target.value)
+                        }
+                      />
+                    </div>
+                    <div className="row two">
+                      <div className="field">
+                        <label>
+                          {t("f.relationship")}
+                          <span className="req">*</span>
+                        </label>
+                        <select
+                          required
+                          value={m.relationship}
+                          onChange={(e) =>
+                            updateMember(i, "relationship", e.target.value)
+                          }
+                        >
+                          <option value="">{t("rel.select")}</option>
+                          {RELATIONSHIPS.map((r) => (
+                            <option key={r.value} value={r.value}>
+                              {t(r.key)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="field">
+                        <label>
+                          {t("f.dob")}
+                          <span className="req">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          required
+                          value={m.dob}
+                          onChange={(e) =>
+                            updateMember(i, "dob", e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="field">
+                      <label>{t("f.memberCin")}</label>
+                      <input
+                        type="text"
+                        value={m.cin}
+                        placeholder={t("f.cinPh", { n: i + 1 })}
+                        onChange={(e) =>
+                          updateMember(i, "cin", e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* nav */}

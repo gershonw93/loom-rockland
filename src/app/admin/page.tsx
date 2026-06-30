@@ -33,6 +33,7 @@ export default function AdminPage() {
   const [agentFilter, setAgentFilter] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [showArchived, setShowArchived] = useState(false);
 
   const [newAgent, setNewAgent] = useState("");
   const [copied, setCopied] = useState("");
@@ -97,6 +98,25 @@ export default function AdminPage() {
       });
     } catch {
       setError("Could not save status change.");
+    }
+  }
+
+  async function setArchived(id: string, archived: boolean, name: string) {
+    if (archived) {
+      const ok = window.confirm(
+        `Archive ${name}?\n\nThey'll be hidden from the active list but kept on file — you can restore them any time with "Show archived".`
+      );
+      if (!ok) return;
+    }
+    setSubs((prev) => prev.map((s) => (s.id === id ? { ...s, archived } : s)));
+    try {
+      await fetch(`/api/admin/submissions/${id}`, {
+        method: "PATCH",
+        headers: { "x-admin-password": pw, "Content-Type": "application/json" },
+        body: JSON.stringify({ archived }),
+      });
+    } catch {
+      setError("Could not update archive state.");
     }
   }
 
@@ -200,20 +220,23 @@ export default function AdminPage() {
   }
 
   // ── derived ───────────────────────────────────────────────────
+  // active = everything not archived (archived stays on file but off the books)
+  const activeSubs = useMemo(() => subs.filter((s) => !s.archived), [subs]);
+
   const stats = useMemo(() => {
     const t0 = startOfToday();
     const week = t0 - 6 * 86400000;
     let today = 0;
     let wk = 0;
     let approved = 0;
-    for (const s of subs) {
+    for (const s of activeSubs) {
       const t = new Date(s.createdAt).getTime();
       if (t >= t0) today++;
       if (t >= week) wk++;
       if (s.status === "approved") approved++;
     }
-    return { today, week: wk, total: subs.length, approved };
-  }, [subs]);
+    return { today, week: wk, total: activeSubs.length, approved };
+  }, [activeSubs]);
 
   const leaderboard = useMemo(() => {
     const t0 = startOfToday();
@@ -225,7 +248,7 @@ export default function AdminPage() {
     for (const a of agents) {
       map.set(a.code, { key: a.code, name: a.name, total: 0, today: 0, approved: 0 });
     }
-    for (const s of subs) {
+    for (const s of activeSubs) {
       const key = s.agentCode || "__direct";
       const name =
         s.agentName || (s.agentCode ? s.agentCode : "Direct / no agent");
@@ -237,7 +260,7 @@ export default function AdminPage() {
       map.set(key, e);
     }
     return [...map.values()].sort((a, b) => b.total - a.total);
-  }, [subs, agents]);
+  }, [activeSubs, agents]);
 
   const maxLb = Math.max(1, ...leaderboard.map((l) => l.total));
 
@@ -245,6 +268,7 @@ export default function AdminPage() {
     const fromTs = from ? new Date(`${from}T00:00:00`).getTime() : null;
     const toTs = to ? new Date(`${to}T23:59:59.999`).getTime() : null;
     return subs.filter((s) => {
+      if (!showArchived && s.archived) return false;
       if (statusFilter && s.status !== statusFilter) return false;
       if (agentFilter && (s.agentCode || "__direct") !== agentFilter) return false;
       const t = new Date(s.createdAt).getTime();
@@ -252,13 +276,13 @@ export default function AdminPage() {
       if (toTs && t > toTs) return false;
       return true;
     });
-  }, [subs, statusFilter, agentFilter, from, to]);
+  }, [subs, statusFilter, agentFilter, from, to, showArchived]);
 
   const agentCounts = useMemo(() => {
     const m = new Map<string, number>();
-    for (const s of subs) m.set(s.agentCode, (m.get(s.agentCode) || 0) + 1);
+    for (const s of activeSubs) m.set(s.agentCode, (m.get(s.agentCode) || 0) + 1);
     return m;
-  }, [subs]);
+  }, [activeSubs]);
 
   // ── login ─────────────────────────────────────────────────────
   if (!authed) {
@@ -446,6 +470,14 @@ export default function AdminPage() {
                 >
                   Clear
                 </button>
+                <label className="archived-toggle">
+                  <input
+                    type="checkbox"
+                    checked={showArchived}
+                    onChange={(e) => setShowArchived(e.target.checked)}
+                  />
+                  Show archived
+                </label>
               </div>
               <button
                 className="btn btn-primary"
@@ -474,11 +506,12 @@ export default function AdminPage() {
                     <th>Family</th>
                     <th>CINs</th>
                     <th>Photos</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {filtered.map((r) => (
-                    <tr key={r.id}>
+                    <tr key={r.id} className={r.archived ? "archived-row" : ""}>
                       <td>
                         <select
                           className="status-select"
@@ -498,6 +531,7 @@ export default function AdminPage() {
                       </td>
                       <td style={{ fontWeight: 600 }}>
                         {r.firstName} {r.lastName}
+                        {r.archived && <span className="arch-badge">Archived</span>}
                         <div style={{ fontWeight: 400, color: "var(--muted)", fontSize: 12 }}>
                           DOB {r.dateOfBirth}
                         </div>
@@ -511,9 +545,37 @@ export default function AdminPage() {
                           </span>
                         ))}
                       </td>
-                      <td>{r.familyMembers}</td>
+                      <td>
+                        {r.familyMembers}
+                        {r.members.length > 0 && (
+                          <div
+                            style={{ fontSize: 11, color: "var(--muted)", whiteSpace: "normal", maxWidth: 180 }}
+                          >
+                            {r.members
+                              .map((m) => `${m.fullName}${m.relationship ? ` (${m.relationship})` : ""}`)
+                              .join(", ")}
+                          </div>
+                        )}
+                      </td>
                       <td>{r.medicaidIds.join(", ") || "—"}</td>
                       <td>{r.photos.length || "—"}</td>
+                      <td>
+                        {r.archived ? (
+                          <button
+                            className="link-btn"
+                            onClick={() => setArchived(r.id, false, `${r.firstName} ${r.lastName}`)}
+                          >
+                            ♻ Restore
+                          </button>
+                        ) : (
+                          <button
+                            className="link-btn archive"
+                            onClick={() => setArchived(r.id, true, `${r.firstName} ${r.lastName}`)}
+                          >
+                            🗄 Archive
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

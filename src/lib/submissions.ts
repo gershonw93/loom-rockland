@@ -3,6 +3,7 @@ import { Timestamp } from "firebase-admin/firestore";
 import { db, bucket, SUBMISSIONS_COLLECTION } from "@/lib/firebaseAdmin";
 import { eligibilityLabel } from "@/lib/eligibility";
 import { statusLabel } from "@/lib/status";
+import { relationshipEn } from "@/lib/relationships";
 import type { SubmissionRecord } from "@/lib/types";
 
 export interface DateRange {
@@ -57,11 +58,13 @@ export async function fetchSubmissions(
       phone: data.phone ?? "",
       eligibility: Array.isArray(data.eligibility) ? data.eligibility : [],
       familyMembers: data.familyMembers ?? 0,
+      members: Array.isArray(data.members) ? data.members : [],
       medicaidIds: Array.isArray(data.medicaidIds) ? data.medicaidIds : [],
       photos: Array.isArray(data.photos) ? data.photos : [],
       agentCode: data.agentCode ?? "",
       agentName: data.agentName ?? "",
       status: data.status ?? "new",
+      archived: data.archived === true,
       createdAt,
     };
   });
@@ -76,6 +79,17 @@ export async function updateSubmissionStatus(
     .collection(SUBMISSIONS_COLLECTION)
     .doc(id)
     .update({ status, statusUpdatedAt: Timestamp.now() });
+}
+
+/** Archive or restore a submission (never deletes the record). */
+export async function updateSubmissionArchived(
+  id: string,
+  archived: boolean
+): Promise<void> {
+  await db()
+    .collection(SUBMISSIONS_COLLECTION)
+    .doc(id)
+    .update({ archived, archivedAt: archived ? Timestamp.now() : null });
 }
 
 /** Generate a temporary signed URL for a stored insurance photo. */
@@ -110,6 +124,7 @@ const CSV_HEADERS = [
   "Phone",
   "Eligibility Categories",
   "Family Members",
+  "Household Member Details",
   "Medicaid CINs",
   "Insurance Photo Links",
 ];
@@ -147,6 +162,14 @@ export async function buildCsv(rows: SubmissionRecord[]): Promise<string> {
       r.phone,
       r.eligibility.map(eligibilityLabel).join("; "),
       r.familyMembers,
+      r.members
+        .map(
+          (m) =>
+            `${m.fullName} (${relationshipEn(m.relationship)}${
+              m.dob ? ", DOB " + m.dob : ""
+            }${m.cin ? ", CIN " + m.cin : ""})`
+        )
+        .join("; "),
       r.medicaidIds.join("; "),
       photoLinks.join(" | "),
     ];
