@@ -57,6 +57,7 @@ const en: Dict = {
   "footer.tagline":
     "Weekly meal boxes & support services for Rockland County families. Benefits and eligibility depend on program requirements.",
   "footer.serving": "Serving Rockland County, NY",
+  "footer.contact": "Contact",
   "footer.note": "A project by NYC4C.ORG · © LOOM Social Care Network",
 
   // chips (who qualifies)
@@ -184,6 +185,7 @@ const es: Dict = {
   "footer.tagline":
     "Cajas de comida semanales y servicios de apoyo para familias del condado de Rockland. Los beneficios y la elegibilidad dependen de los requisitos del programa.",
   "footer.serving": "Sirviendo al condado de Rockland, NY",
+  "footer.contact": "Contacto",
   "footer.note": "Un proyecto de NYC4C.ORG · © LOOM Social Care Network",
 
   "chip.pregnancy": "Embarazo o posparto",
@@ -336,6 +338,7 @@ const ht: Dict = {
   "footer.tagline":
     "Bwat manje chak semèn ak sèvis sipò pou fanmi nan Konte Rockland. Benefis ak kalifikasyon depann de kondisyon pwogram nan.",
   "footer.serving": "N ap sèvi Konte Rockland, NY",
+  "footer.contact": "Kontak",
   "footer.note": "Yon pwojè NYC4C.ORG · © LOOM Social Care Network",
 
   "chip.pregnancy": "Gwosès oswa apre akouchman",

@@ -124,7 +124,8 @@ export default function Home() {
             </p>
           </div>
           <div className="contact">
-            <a href="mailto:loomrockland@gmail.com">loomrockland@gmail.com</a>
+            <div className="contact-label">{t("footer.contact")}</div>
+            <a href="mailto:loomrockland@gmail.com">✉ loomrockland@gmail.com</a>
             <br />
             {t("footer.serving")}
           </div>
