@@ -430,7 +430,7 @@ export function EnrollmentForm() {
               <input
                 type="text"
                 value={cin}
-                placeholder={t("f.cinPh", { n: 1 })}
+                placeholder={t("f.cinPlain")}
                 onChange={(e) => setCin(e.target.value)}
               />
             </div>
@@ -502,7 +502,7 @@ export function EnrollmentForm() {
                       <input
                         type="text"
                         value={m.cin}
-                        placeholder={t("f.cinPh", { n: i + 1 })}
+                        placeholder={t("f.cinPlain")}
                         onChange={(e) =>
                           updateMember(i, "cin", e.target.value)
                         }

@@ -609,9 +609,24 @@ select:focus {
   border-color: var(--purple);
   box-shadow: 0 0 0 3.5px rgba(109, 63, 206, 0.15);
 }
+/* iOS Safari gives date/time inputs an intrinsic width that overflows their
+   container — normalise appearance and let them shrink to fit. */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-width: 0;
+  max-width: 100%;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
 .row {
   display: grid;
   gap: 12px;
+}
+/* grid items default to min-width:auto, which lets wide inputs overflow */
+.row > * {
+  min-width: 0;
 }
 .row.two {
   grid-template-columns: 1fr 1fr;

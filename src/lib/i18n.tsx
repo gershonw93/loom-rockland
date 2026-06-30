@@ -124,6 +124,7 @@ const en: Dict = {
   "f.cin": "Medicaid ID# (CIN) — if no photos",
   "f.cinHint": "Enter the main applicant's Medicaid CIN, if you have it.",
   "f.cinPh": "Medicaid CIN #{n}",
+  "f.cinPlain": "Medicaid CIN",
   "f.addCin": "+ Add another CIN",
 
   "members.title": "Add family members",
@@ -270,6 +271,7 @@ const es: Dict = {
   "f.cin": "Identificación de Medicaid (CIN) — si no hay fotos",
   "f.cinHint": "Ingresa el CIN de Medicaid del solicitante principal, si lo tienes.",
   "f.cinPh": "CIN de Medicaid #{n}",
+  "f.cinPlain": "CIN de Medicaid",
   "f.addCin": "+ Agregar otro CIN",
 
   "members.title": "Agregar familiares",
@@ -443,6 +445,7 @@ const ht: Dict = {
   "f.cin": "ID Medicaid (CIN) — si pa gen foto",
   "f.cinHint": "Antre CIN Medicaid aplikan prensipal la, si ou genyen l.",
   "f.cinPh": "CIN Medicaid #{n}",
+  "f.cinPlain": "CIN Medicaid",
   "f.addCin": "+ Ajoute yon lòt CIN",
 
   "members.title": "Ajoute manm fanmi",
