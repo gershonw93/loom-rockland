@@ -814,55 +814,192 @@ select:focus {
   color: var(--deep);
   margin-bottom: 14px;
 }
-.ref-cards {
+/* realistic insurance-card recreations */
+.cards3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin-top: 4px;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 14px;
+  margin-top: 6px;
 }
-.ref-card {
+.ccard {
+  margin: 0;
+  background: #fff;
+  border: 1px solid #dcdce4;
   border-radius: 12px;
-  padding: 12px 13px;
-  color: #fff;
-  aspect-ratio: 1.6 / 1;
+  box-shadow: var(--shadow-sm);
+  padding: 13px 14px;
+  font-size: 11px;
+  color: #232323;
   display: flex;
   flex-direction: column;
+  min-height: 158px;
+}
+.cc-top {
+  display: flex;
   justify-content: space-between;
-  font-size: 11px;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
+  align-items: flex-start;
+  gap: 8px;
 }
-.ref-card .brandname {
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.02em;
+.cc-tiny {
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: #333;
 }
-.ref-card .label {
-  opacity: 0.85;
-  font-size: 9.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.ref-card .cin {
+.cc-strong {
+  font-size: 15px;
   font-weight: 800;
-  font-size: 13px;
+  color: #111;
+  letter-spacing: 0.02em;
+  margin: 1px 0;
+}
+.cc-divider {
+  height: 2px;
+  margin: 8px 0;
+}
+.cc-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 1;
+}
+/* highlighted CIN / Member ID */
+.cc-id-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.cc-id-wrap.left {
+  align-items: flex-start;
+}
+.cc-id {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 12px;
+  color: #111;
   background: #fff;
-  color: #c0182b;
-  border: 2px solid #ff3b50;
-  box-shadow: 0 0 0 3px rgba(255, 59, 80, 0.35);
-  border-radius: 6px;
-  padding: 2px 7px;
+  border: 2px solid #ff2d3f;
+  border-radius: 5px;
+  padding: 2px 6px;
+  box-shadow: 0 0 0 3px rgba(255, 45, 63, 0.18);
+  white-space: nowrap;
+}
+.cc-arrow {
+  color: #e0192c;
+  font-weight: 800;
+  font-size: 10px;
+}
+.ccard figcaption {
+  margin-top: auto;
+  padding-top: 8px;
+}
+/* Fidelis */
+.fidelis-card {
+  border: 2px solid #0c8a8a;
+}
+.fidelis-line {
+  background: #0c8a8a;
+}
+.fidelis-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #0c8a8a;
+  color: #fff;
+  font-weight: 800;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  height: fit-content;
+}
+.fidelis-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+}
+/* UnitedHealthcare */
+.uhc-card {
+  border: 1px solid #c9d3ea;
+}
+.uhc-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #002677;
+  font-weight: 800;
+  font-size: 12px;
+}
+.uhc-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 16px;
+}
+.uhc-bars i {
+  width: 3px;
+  background: #002677;
+  border-radius: 1px;
+}
+.uhc-bars i:nth-child(1) {
+  height: 7px;
+}
+.uhc-bars i:nth-child(2) {
+  height: 11px;
+}
+.uhc-bars i:nth-child(3) {
+  height: 14px;
+}
+.uhc-bars i:nth-child(4) {
+  height: 16px;
+}
+.uhc-ucard {
+  background: #002677;
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  height: fit-content;
+}
+.uhc-name {
+  color: #002677;
+  font-weight: 800;
+  font-size: 15px;
+  margin: 12px 0 8px;
+}
+/* NY State */
+.nys-card {
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #c9d3ea;
+}
+.nys-head {
+  background: linear-gradient(135deg, #2c5a9e, #1d3f78);
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nys-seal {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f4b400;
   display: inline-block;
 }
-.ref-card.fidelis {
-  background: linear-gradient(135deg, #0f8a8a, #0c6f72);
-}
-.ref-card.nys {
-  background: linear-gradient(135deg, #2c5a9e, #1d3f78);
-}
-.ref-card.uhc {
-  background: linear-gradient(135deg, #1f3b86, #142a63);
+.nys-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .ref-caption {
   text-align: center;
