@@ -239,9 +239,9 @@ img {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("/brand/family.jpg");
+  background-image: url("/brand/hero.jpg");
   background-size: cover;
-  background-position: center 30%;
+  background-position: center 52%;
   transform: scale(1.02);
 }
 .hero::after {
@@ -250,9 +250,9 @@ img {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(46, 26, 71, 0.15) 0%,
-    rgba(46, 26, 71, 0.35) 45%,
-    rgba(46, 26, 71, 0.92) 100%
+    rgba(46, 26, 71, 0.28) 0%,
+    rgba(46, 26, 71, 0.5) 38%,
+    rgba(46, 26, 71, 0.95) 100%
   );
 }
 .hero-inner {
@@ -270,6 +270,10 @@ img {
   font-style: italic;
   letter-spacing: -0.01em;
   max-width: 12ch;
+  text-shadow: 0 2px 18px rgba(20, 10, 35, 0.55);
+}
+.hero .sub {
+  text-shadow: 0 1px 10px rgba(20, 10, 35, 0.5);
 }
 .hero h1 .accent {
   color: var(--lilac);
