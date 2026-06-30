@@ -136,12 +136,11 @@ const en: Dict = {
   "f.relationship": "Relationship",
   "f.memberCin": "Medicaid ID# (CIN) — if no photo",
   "rel.select": "Select…",
-  "rel.spouse": "Spouse",
+  "rel.husband": "Husband",
+  "rel.wife": "Wife",
   "rel.child": "Child",
+  "rel.mother": "Mother",
   "rel.parent": "Parent",
-  "rel.sibling": "Sibling",
-  "rel.grandparent": "Grandparent",
-  "rel.grandchild": "Grandchild",
   "rel.other": "Other",
 
   "ins.note":
@@ -284,12 +283,10 @@ const es: Dict = {
   "f.relationship": "Parentesco",
   "f.memberCin": "Identificación de Medicaid (CIN) — si no hay foto",
   "rel.select": "Selecciona…",
-  "rel.spouse": "Cónyuge",
+  "rel.husband": "Esposo",
+  "rel.wife": "Esposa",
   "rel.child": "Hijo/a",
-  "rel.parent": "Padre/Madre",
-  "rel.sibling": "Hermano/a",
-  "rel.grandparent": "Abuelo/a",
-  "rel.grandchild": "Nieto/a",
+  "rel.mother": "Madre",
   "rel.other": "Otro",
 
   "ins.note":
@@ -459,12 +456,10 @@ const ht: Dict = {
   "f.relationship": "Relasyon",
   "f.memberCin": "ID Medicaid (CIN) — si pa gen foto",
   "rel.select": "Chwazi…",
-  "rel.spouse": "Mari/Madanm",
+  "rel.husband": "Mari",
+  "rel.wife": "Madanm",
   "rel.child": "Pitit",
-  "rel.parent": "Paran",
-  "rel.sibling": "Frè/Sè",
-  "rel.grandparent": "Granparan",
-  "rel.grandchild": "Pititpitit",
+  "rel.mother": "Manman",
   "rel.other": "Lòt",
 
   "ins.note":
