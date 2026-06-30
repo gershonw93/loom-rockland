@@ -554,7 +554,28 @@ export default function AdminPage() {
                         </td>
                         <td>{r.familyMembers}</td>
                         <td>{r.medicaidIds.join(", ") || "—"}</td>
-                        <td>{r.photos.length || "—"}</td>
+                        <td>
+                          {r.photos.length === 0 ? (
+                            "—"
+                          ) : (
+                            <div className="photo-cell">
+                              {r.photos.map((p, i) => {
+                                const url = r.photoUrls[i];
+                                const isImg = (p.contentType || "").startsWith("image/");
+                                return isImg ? (
+                                  <a key={i} href={url} target="_blank" rel="noreferrer" title={p.filename}>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img className="photo-thumb" src={url} alt={p.filename} />
+                                  </a>
+                                ) : (
+                                  <a key={i} href={url} target="_blank" rel="noreferrer" className="link-btn" title={p.filename}>
+                                    📄 PDF
+                                  </a>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </td>
                         <td>
                           {r.archived ? (
                             <button

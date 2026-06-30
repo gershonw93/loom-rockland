@@ -1448,6 +1448,27 @@ tbody tr:hover {
   color: var(--danger);
 }
 
+/* uploaded photo thumbnails in the contacts table */
+.photo-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.photo-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.photo-thumb:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow);
+}
+
 /* per-person sub-rows (household members under one form #) */
 .member-subrow td {
   background: #faf9ff;

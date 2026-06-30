@@ -32,6 +32,7 @@ export interface Submission {
   members: FamilyMember[]; // additional household members
   medicaidIds: string[]; // CINs
   photos: InsurancePhoto[];
+  photoUrls: string[]; // signed, time-limited URLs (parallel to photos)
   agentCode: string; // referring agent's code ("" if none)
   agentName: string; // denormalised agent name
   status: string; // contact lifecycle status

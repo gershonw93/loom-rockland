@@ -36,7 +36,7 @@ export async function fetchSubmissions(
   }
 
   const snap = await query.get();
-  return snap.docs.map((doc) => {
+  const records: SubmissionRecord[] = snap.docs.map((doc) => {
     const data = doc.data();
     const createdAt =
       data.createdAt instanceof Timestamp
@@ -62,6 +62,7 @@ export async function fetchSubmissions(
       members: Array.isArray(data.members) ? data.members : [],
       medicaidIds: Array.isArray(data.medicaidIds) ? data.medicaidIds : [],
       photos: Array.isArray(data.photos) ? data.photos : [],
+      photoUrls: [],
       agentCode: data.agentCode ?? "",
       agentName: data.agentName ?? "",
       status: data.status ?? "new",
@@ -69,6 +70,14 @@ export async function fetchSubmissions(
       createdAt,
     };
   });
+
+  // attach short-lived signed URLs so the admin can view uploaded cards
+  await Promise.all(
+    records.map(async (r) => {
+      r.photoUrls = await Promise.all(r.photos.map((p) => signedUrl(p.path)));
+    })
+  );
+  return records;
 }
 
 /** Update the lifecycle status of a single submission. */
