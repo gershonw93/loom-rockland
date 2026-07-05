@@ -1375,6 +1375,12 @@ tbody tr:hover {
   padding: 9px 14px;
   font-size: 13.5px;
 }
+.agent-actions {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  text-align: right;
+}
 .add-agent {
   display: flex;
   gap: 10px;

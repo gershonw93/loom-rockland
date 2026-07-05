@@ -47,6 +47,10 @@ export async function getAgent(code: string): Promise<Agent | null> {
   return doc.exists ? toAgent(doc.id, doc.data()!) : null;
 }
 
+export async function deleteAgent(code: string): Promise<void> {
+  await db().collection(AGENTS_COLLECTION).doc(code).delete();
+}
+
 export async function createAgent(name: string): Promise<Agent> {
   const base = slugify(name) || "agent";
   // ensure a unique code (doc id)

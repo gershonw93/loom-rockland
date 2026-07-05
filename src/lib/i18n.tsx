@@ -106,7 +106,7 @@ const en: Dict = {
   "f.phonePh": "+1 (845) 000-0000",
 
   "s3.eyebrow": "Eligibility",
-  "s3.title": "What brings you to LOOM?",
+  "s3.title": "Select the health condition that applies to you",
   "s3.hint": "Select all that apply.",
   "f.family": "Number of family members (including you)",
 
@@ -253,7 +253,7 @@ const es: Dict = {
   "f.phonePh": "+1 (845) 000-0000",
 
   "s3.eyebrow": "Elegibilidad",
-  "s3.title": "¿Qué te trae a LOOM?",
+  "s3.title": "Selecciona la condición de salud que aplica a ti",
   "s3.hint": "Selecciona todas las que apliquen.",
   "f.family": "Número de miembros de la familia (incluyéndote)",
 
@@ -312,32 +312,16 @@ const es: Dict = {
   "err.failed": "El envío falló.",
   "err.tooBig": '"{name}" supera los 10 MB.',
 
-  "elig.pregnancy": "Embarazo – Futuras madres",
-  "elig.postpartum":
-    "Posparto – Nuevas madres (generalmente hasta 1 año después del parto)",
-  "elig.food_insecurity":
-    "Inseguridad alimentaria – Dificultad para pagar o acceder a comida nutritiva",
-  "elig.housing_insecurity":
-    "Inseguridad de vivienda – En riesgo de desalojo, falta de vivienda o dificultad para pagar la renta",
-  "elig.diabetes": "Diabetes – Controlar el azúcar en sangre mediante la dieta",
-  "elig.hypertension":
-    "Hipertensión – Presión arterial alta que requiere una nutrición saludable",
-  "elig.heart_conditions":
-    "Enfermedades del corazón – Apoyo para enfermedades cardíacas crónicas",
-  "elig.obesity":
-    "Obesidad – Necesidad de apoyo nutricional para el control de peso",
-  "elig.mental_health":
-    "Salud mental – Depresión, ansiedad u otros problemas de salud mental",
-  "elig.developmental_disabilities":
-    "Discapacidades del desarrollo – Autismo, síndrome de Down u otros retrasos",
-  "elig.physical_disabilities":
-    "Discapacidades físicas – Problemas de movilidad que afectan el acceso a la comida",
-  "elig.substance_use":
-    "Trastorno por uso de sustancias – Apoyo para personas en recuperación",
-  "elig.medicaid_membership":
-    "Membresía de Medicaid – Titulares de Healthfirst, Fidelis, United, etc.",
-  "elig.public_assistance":
-    "Asistencia pública – Personas que reciben SNAP, WIC, SSI o TANF",
+  "elig.pregnant": "Embarazada",
+  "elig.miscarriage": "Tuvo un aborto espontáneo",
+  "elig.postpartum": "Posparto (últimos 12 meses)",
+  "elig.substance_use": "Trastorno por uso de sustancias",
+  "elig.hiv_aids": "VIH / SIDA",
+  "elig.diabetes": "Diabetes",
+  "elig.hypertension": "Hipertensión",
+  "elig.smi": "Enfermedad mental grave (SMI)",
+  "elig.chronic": "Condición crónica",
+  "elig.other": "Otra",
 };
 
 const ht: Dict = {
@@ -426,7 +410,7 @@ const ht: Dict = {
   "f.phonePh": "+1 (845) 000-0000",
 
   "s3.eyebrow": "Kalifikasyon",
-  "s3.title": "Kisa ki mennen w nan LOOM?",
+  "s3.title": "Chwazi kondisyon sante ki aplike a ou",
   "s3.hint": "Chwazi tout sa ki aplikab.",
   "f.family": "Kantite manm fanmi (avèk ou ladann)",
 
@@ -485,30 +469,16 @@ const ht: Dict = {
   "err.failed": "Aplikasyon an pa t voye.",
   "err.tooBig": '"{name}" pi gwo pase 10 MB.',
 
-  "elig.pregnancy": "Gwosès – Manman ki ansent",
-  "elig.postpartum":
-    "Apre akouchman – Nouvo manman (anjeneral jiska 1 an apre akouchman)",
-  "elig.food_insecurity":
-    "Mank manje – Difikilte pou peye oswa jwenn manje ki bon pou sante",
-  "elig.housing_insecurity":
-    "Mank lojman – An risk pou degèpisman, sanzabri, oswa difikilte pou peye lwaye",
-  "elig.diabetes": "Dyabèt – Jere sik nan san atravè rejim manje",
-  "elig.hypertension":
-    "Tansyon wo – Tansyon wo ki mande yon nitrisyon ki bon pou sante",
-  "elig.heart_conditions": "Maladi kè – Sipò pou maladi kè kwonik",
-  "elig.obesity": "Obezite – Bezwen sipò nitrisyonèl pou jere pwa",
-  "elig.mental_health":
-    "Defi sante mantal – Depresyon, enkyetid, oswa lòt pwoblèm sante mantal",
-  "elig.developmental_disabilities":
-    "Andikap devlopman – Otis, sendwòm Down, oswa lòt reta",
-  "elig.physical_disabilities":
-    "Andikap fizik – Pwoblèm mobilite ki afekte aksè ak manje",
-  "elig.substance_use":
-    "Twoub itilizasyon sibstans – Sipò pou moun k ap refè",
-  "elig.medicaid_membership":
-    "Manm Medicaid – Moun ki gen Healthfirst, Fidelis, United, elatriye",
-  "elig.public_assistance":
-    "Asistans Piblik – Moun k ap resevwa SNAP, WIC, SSI, oswa TANF",
+  "elig.pregnant": "Ansent",
+  "elig.miscarriage": "Te fè yon foskouch",
+  "elig.postpartum": "Apre akouchman (12 dènye mwa)",
+  "elig.substance_use": "Twoub itilizasyon sibstans",
+  "elig.hiv_aids": "VIH / SIDA",
+  "elig.diabetes": "Dyabèt",
+  "elig.hypertension": "Tansyon wo",
+  "elig.smi": "Maladi mantal grav (SMI)",
+  "elig.chronic": "Kondisyon kwonik",
+  "elig.other": "Lòt",
 };
 
 const DICTS: Record<Locale, Dict> = { en, es, ht };

@@ -2,13 +2,12 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import QRCode from "qrcode";
-import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
+import { eligibilityLabel } from "@/lib/eligibility";
 import { relationshipEn } from "@/lib/relationships";
 import { STATUSES, statusColor } from "@/lib/status";
 import { Logo } from "@/components/Logo";
 import type { Agent, SubmissionRecord } from "@/lib/types";
 
-const ELIG = new Map(ELIGIBILITY_CATEGORIES.map((c) => [c.value, c.label]));
 const PW_KEY = "loom_admin_pw";
 
 type Tab = "dashboard" | "contacts" | "agents";
@@ -138,6 +137,30 @@ export default function AdminPage() {
       setNewAgent("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create agent.");
+    }
+  }
+
+  async function deleteAgent(code: string, name: string) {
+    // Step 2 of the two-step delete: re-enter the admin password.
+    const entered = window.prompt(
+      `Delete agent "${name}"?\n\nThis can't be undone. Their past referrals stay on file, but the link stops being tracked.\n\nEnter the admin password to confirm:`
+    );
+    if (entered === null) return; // cancelled
+    if (!entered.trim()) return;
+    try {
+      const res = await fetch(`/api/admin/agents/${code}`, {
+        method: "DELETE",
+        headers: { "x-admin-password": entered },
+      });
+      if (res.status === 401) {
+        setError("Incorrect password — agent was not deleted.");
+        return;
+      }
+      if (!res.ok) throw new Error("Could not delete agent.");
+      setAgents((prev) => prev.filter((a) => a.code !== code));
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not delete agent.");
     }
   }
 
@@ -548,7 +571,7 @@ export default function AdminPage() {
                         <td style={{ whiteSpace: "normal", minWidth: 220 }}>
                           {r.eligibility.map((e) => (
                             <span className="pill" key={e}>
-                              {(ELIG.get(e) ?? e).split(" – ")[0]}
+                              {eligibilityLabel(e).split(" – ")[0]}
                             </span>
                           ))}
                         </td>
@@ -685,6 +708,14 @@ export default function AdminPage() {
                       </button>
                     </div>
                   )}
+                  <div className="agent-actions">
+                    <button
+                      className="link-btn archive"
+                      onClick={() => deleteAgent(a.code, a.name)}
+                    >
+                      🗑 Delete agent
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
