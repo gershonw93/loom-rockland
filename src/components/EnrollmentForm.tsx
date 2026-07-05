@@ -502,10 +502,14 @@ export function EnrollmentForm() {
                       </div>
                     </div>
                     <div className="field">
-                      <label>{t("f.memberCin")}</label>
+                      <label>
+                        {t("f.memberCin")}
+                        <span className="req">*</span>
+                      </label>
                       <input
                         type="text"
                         value={m.cin}
+                        required
                         placeholder={t("f.cinPlain")}
                         onChange={(e) =>
                           updateMember(i, "cin", e.target.value)

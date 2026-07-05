@@ -108,6 +108,12 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
+  if (members.some((m) => !m.cin)) {
+    return NextResponse.json(
+      { error: "Each family member's Medicaid CIN is required." },
+      { status: 400 }
+    );
+  }
   const familyMembers = Number.parseInt(familyMembersRaw, 10);
   if (!Number.isFinite(familyMembers) || familyMembers < 1) {
     return NextResponse.json(

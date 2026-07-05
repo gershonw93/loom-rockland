@@ -4,20 +4,11 @@ import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import { Logo } from "@/components/Logo";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, eligLabel } from "@/lib/i18n";
+import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 
-const CHIP_KEYS = [
-  "chip.pregnancy",
-  "chip.food",
-  "chip.housing",
-  "chip.chronic",
-  "chip.heart",
-  "chip.mental",
-  "chip.develop",
-  "chip.physical",
-  "chip.medicaid",
-  "chip.assistance",
-];
+// Landing "who qualifies" chips mirror the form's health-condition list.
+const QUALIFY_CHIPS = ELIGIBILITY_CATEGORIES.filter((c) => c.value !== "other");
 
 export default function Home() {
   const { t } = useI18n();
@@ -81,9 +72,9 @@ export default function Home() {
             <h2>{t("qual.title")}</h2>
             <p className="lead">{t("qual.lead")}</p>
             <div className="chips">
-              {CHIP_KEYS.map((k) => (
-                <span className="chip" key={k}>
-                  {t(k)}
+              {QUALIFY_CHIPS.map((c) => (
+                <span className="chip" key={c.value}>
+                  {eligLabel(t, c.value, c.label)}
                 </span>
               ))}
             </div>
