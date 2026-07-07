@@ -13,6 +13,14 @@ export interface FamilyMember {
   cin: string; // Medicaid CIN (optional)
 }
 
+export interface ConditionDetail {
+  condition: string; // eligibility value
+  clientName: string; // person this condition applies to
+  date?: string; // miscarriage: date
+  infantName?: string; // postpartum: infant's name
+  infantDob?: string; // postpartum: infant's DOB
+}
+
 export interface Submission {
   formNumber: number; // sequential application number (from 860001)
   referredBy: string;
@@ -28,6 +36,9 @@ export interface Submission {
   };
   phone: string;
   eligibility: string[]; // category values
+  conditionDetails: ConditionDetail[]; // per-condition extra info
+  otherDoc: InsurancePhoto | null; // supporting doc for "Other"
+  otherDocUrl: string; // signed URL for otherDoc ("" if none)
   familyMembers: number;
   members: FamilyMember[]; // additional household members
   medicaidIds: string[]; // CINs

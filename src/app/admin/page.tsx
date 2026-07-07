@@ -568,12 +568,31 @@ export default function AdminPage() {
                         </td>
                         <td>{r.phone}</td>
                         <td>{r.agentName || "—"}</td>
-                        <td style={{ whiteSpace: "normal", minWidth: 220 }}>
+                        <td style={{ whiteSpace: "normal", minWidth: 240 }}>
                           {r.eligibility.map((e) => (
                             <span className="pill" key={e}>
                               {eligibilityLabel(e).split(" – ")[0]}
                             </span>
                           ))}
+                          {r.conditionDetails.length > 0 && (
+                            <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 4 }}>
+                              {r.conditionDetails.map((cd, i) => (
+                                <div key={i}>
+                                  <b>{eligibilityLabel(cd.condition).split(" – ")[0]}:</b>{" "}
+                                  {cd.clientName || "—"}
+                                  {cd.date ? ` · ${cd.date}` : ""}
+                                  {cd.infantName
+                                    ? ` · infant ${cd.infantName}${cd.infantDob ? ` (${cd.infantDob})` : ""}`
+                                    : ""}
+                                </div>
+                              ))}
+                              {r.otherDocUrl && (
+                                <a href={r.otherDocUrl} target="_blank" rel="noreferrer">
+                                  📄 Supporting document
+                                </a>
+                              )}
+                            </div>
+                          )}
                         </td>
                         <td>{r.familyMembers}</td>
                         <td>{r.medicaidIds.join(", ") || "—"}</td>

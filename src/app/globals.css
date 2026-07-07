@@ -749,6 +749,28 @@ input[type="date"]::-webkit-date-and-time-value {
   padding: 0 14px;
 }
 
+/* per-condition detail blocks */
+.cond-details {
+  margin-top: 16px;
+}
+.condition-detail {
+  background: var(--lav-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+.condition-detail .cd-head {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.condition-detail .field {
+  margin-top: 12px;
+}
+
 /* household members */
 .members-section {
   margin-top: 26px;

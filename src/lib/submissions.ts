@@ -58,6 +58,11 @@ export async function fetchSubmissions(
       },
       phone: data.phone ?? "",
       eligibility: Array.isArray(data.eligibility) ? data.eligibility : [],
+      conditionDetails: Array.isArray(data.conditionDetails)
+        ? data.conditionDetails
+        : [],
+      otherDoc: data.otherDoc ?? null,
+      otherDocUrl: "",
       familyMembers: data.familyMembers ?? 0,
       members: Array.isArray(data.members) ? data.members : [],
       medicaidIds: Array.isArray(data.medicaidIds) ? data.medicaidIds : [],
@@ -71,10 +76,11 @@ export async function fetchSubmissions(
     };
   });
 
-  // attach short-lived signed URLs so the admin can view uploaded cards
+  // attach short-lived signed URLs so the admin can view uploaded files
   await Promise.all(
     records.map(async (r) => {
       r.photoUrls = await Promise.all(r.photos.map((p) => signedUrl(p.path)));
+      if (r.otherDoc?.path) r.otherDocUrl = await signedUrl(r.otherDoc.path);
     })
   );
   return records;
@@ -134,6 +140,7 @@ const CSV_HEADERS = [
   "ZIP",
   "Phone",
   "Eligibility Categories",
+  "Condition Details",
   "Family Members",
   "Household Member Details",
   "Medicaid CINs",
@@ -173,6 +180,15 @@ export async function buildCsv(rows: SubmissionRecord[]): Promise<string> {
       r.address.zip,
       r.phone,
       r.eligibility.map(eligibilityLabel).join("; "),
+      r.conditionDetails
+        .map((cd) => {
+          let s = `${eligibilityLabel(cd.condition)}: ${cd.clientName}`;
+          if (cd.date) s += ` (date ${cd.date})`;
+          if (cd.infantName)
+            s += ` (infant ${cd.infantName}${cd.infantDob ? ", DOB " + cd.infantDob : ""})`;
+          return s;
+        })
+        .join("; ") + (r.otherDoc ? " [supporting doc attached]" : ""),
       r.familyMembers,
       r.members
         .map(

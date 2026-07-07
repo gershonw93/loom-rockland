@@ -77,6 +77,47 @@ export async function POST(req: Request) {
     }
   }
 
+  // Per-condition detail fields (sent as a JSON string)
+  const VALID_CONDITIONS = new Set(eligibility);
+  let conditionDetails: {
+    condition: string;
+    clientName: string;
+    date?: string;
+    infantName?: string;
+    infantDob?: string;
+  }[] = [];
+  const condRaw = str(form, "conditionDetailsJson");
+  if (condRaw) {
+    try {
+      const parsed = JSON.parse(condRaw);
+      if (Array.isArray(parsed)) {
+        conditionDetails = parsed
+          .filter((c) => VALID_CONDITIONS.has(String(c?.condition)))
+          .map((c) => {
+            const out: {
+              condition: string;
+              clientName: string;
+              date?: string;
+              infantName?: string;
+              infantDob?: string;
+            } = {
+              condition: String(c.condition),
+              clientName: String(c?.clientName ?? "").trim().slice(0, 120),
+            };
+            if (c?.date) out.date = String(c.date).trim().slice(0, 20);
+            if (c?.infantName)
+              out.infantName = String(c.infantName).trim().slice(0, 120);
+            if (c?.infantDob)
+              out.infantDob = String(c.infantDob).trim().slice(0, 20);
+            return out;
+          })
+          .slice(0, 20);
+      }
+    } catch {
+      /* ignore malformed condition details */
+    }
+  }
+
   const required: Record<string, string> = {
     firstName,
     lastName,
@@ -164,6 +205,42 @@ export async function POST(req: Request) {
     );
   }
 
+  // ── Upload the "Other" condition supporting document (optional) ─
+  let otherDoc: InsurancePhoto | null = null;
+  const otherDocFile = form.get("otherDoc");
+  if (otherDocFile instanceof File && otherDocFile.size > 0) {
+    try {
+      if (otherDocFile.size > MAX_PHOTO_BYTES) {
+        return NextResponse.json(
+          { error: `"${otherDocFile.name}" exceeds the 10 MB limit.` },
+          { status: 400 }
+        );
+      }
+      const safeName = otherDocFile.name.replace(/[^\w.\-]+/g, "_").slice(-120);
+      const path = `${SUBMISSIONS_COLLECTION}/${docRef.id}/other_${Date.now()}_${safeName}`;
+      const buffer = Buffer.from(await otherDocFile.arrayBuffer());
+      await bucket()
+        .file(path)
+        .save(buffer, {
+          contentType: otherDocFile.type || "application/octet-stream",
+          resumable: false,
+          metadata: { contentType: otherDocFile.type || "application/octet-stream" },
+        });
+      otherDoc = {
+        path,
+        filename: otherDocFile.name,
+        contentType: otherDocFile.type || "application/octet-stream",
+        size: otherDocFile.size,
+      };
+    } catch (err) {
+      console.error("other-doc upload failed", err);
+      return NextResponse.json(
+        { error: "Could not upload the supporting document. Please try again." },
+        { status: 500 }
+      );
+    }
+  }
+
   // ── Resolve referring agent (from the ?ref= link) ─────────────
   let resolvedAgentCode = "";
   let agentName = "";
@@ -198,6 +275,8 @@ export async function POST(req: Request) {
       address: { line1: addressLine1, line2: addressLine2, city, state, zip },
       phone,
       eligibility,
+      conditionDetails,
+      otherDoc,
       familyMembers,
       members,
       medicaidIds,

@@ -28,6 +28,10 @@ export function EnrollmentForm() {
   const [step, setStep] = useState(0);
   const [ref, setRef] = useState("");
   const [eligibility, setEligibility] = useState<string[]>([]);
+  const [details, setDetails] = useState<
+    Record<string, { clientName: string; date: string; infantName: string; infantDob: string }>
+  >({});
+  const [otherDoc, setOtherDoc] = useState<File | null>(null);
   const [familyCount, setFamilyCount] = useState(1);
   const [members, setMembers] = useState<Member[]>([]);
   const [cin, setCin] = useState("");
@@ -38,6 +42,7 @@ export function EnrollmentForm() {
   const [formNumber, setFormNumber] = useState<number | null>(null);
 
   const fileInput = useRef<HTMLInputElement>(null);
+  const otherDocInput = useRef<HTMLInputElement>(null);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -72,6 +77,31 @@ export function EnrollmentForm() {
     setEligibility((prev) =>
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
     );
+    setDetails((prev) =>
+      prev[value]
+        ? prev
+        : {
+            ...prev,
+            [value]: { clientName: "", date: "", infantName: "", infantDob: "" },
+          }
+    );
+  }
+
+  function updateDetail(
+    value: string,
+    field: "clientName" | "date" | "infantName" | "infantDob",
+    val: string
+  ) {
+    setDetails((prev) => ({
+      ...prev,
+      [value]: {
+        clientName: prev[value]?.clientName ?? "",
+        date: prev[value]?.date ?? "",
+        infantName: prev[value]?.infantName ?? "",
+        infantDob: prev[value]?.infantDob ?? "",
+        [field]: val,
+      },
+    }));
   }
 
   function onFiles(list: FileList | null) {
@@ -132,6 +162,21 @@ export function EnrollmentForm() {
 
     const form = new FormData(formRef.current);
     eligibility.forEach((v) => form.append("eligibility", v));
+    const conditionDetails = eligibility.map((v) => {
+      const d = details[v] ?? { clientName: "", date: "", infantName: "", infantDob: "" };
+      const out: Record<string, string> = {
+        condition: v,
+        clientName: d.clientName.trim(),
+      };
+      if (v === "miscarriage") out.date = d.date;
+      if (v === "postpartum") {
+        out.infantName = d.infantName.trim();
+        out.infantDob = d.infantDob;
+      }
+      return out;
+    });
+    form.append("conditionDetailsJson", JSON.stringify(conditionDetails));
+    if (otherDoc) form.append("otherDoc", otherDoc);
     if (cin.trim()) form.append("medicaidIds", cin.trim());
     photos.forEach((f) => form.append("photos", f));
 
@@ -332,6 +377,121 @@ export function EnrollmentForm() {
                 );
               })}
             </div>
+
+            {/* Per-condition detail fields */}
+            {eligibility.length > 0 && (
+              <div className="cond-details">
+                {ELIGIBILITY_CATEGORIES.filter((c) =>
+                  eligibility.includes(c.value)
+                ).map((c) => {
+                  const d =
+                    details[c.value] ?? {
+                      clientName: "",
+                      date: "",
+                      infantName: "",
+                      infantDob: "",
+                    };
+                  return (
+                    <div className="condition-detail" key={c.value}>
+                      <div className="cd-head">{eligLabel(t, c.value, c.label)}</div>
+                      <div className="field">
+                        <label>
+                          {t("cond.clientName")}
+                          <span className="req">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={d.clientName}
+                          onChange={(e) =>
+                            updateDetail(c.value, "clientName", e.target.value)
+                          }
+                        />
+                      </div>
+
+                      {c.value === "miscarriage" && (
+                        <div className="field">
+                          <label>
+                            {t("cond.miscarriageDate")}
+                            <span className="req">*</span>
+                          </label>
+                          <input
+                            type="date"
+                            required
+                            value={d.date}
+                            onChange={(e) =>
+                              updateDetail(c.value, "date", e.target.value)
+                            }
+                          />
+                        </div>
+                      )}
+
+                      {c.value === "postpartum" && (
+                        <div className="row two">
+                          <div className="field">
+                            <label>
+                              {t("cond.infantName")}
+                              <span className="req">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={d.infantName}
+                              onChange={(e) =>
+                                updateDetail(c.value, "infantName", e.target.value)
+                              }
+                            />
+                          </div>
+                          <div className="field">
+                            <label>
+                              {t("cond.infantDob")}
+                              <span className="req">*</span>
+                            </label>
+                            <input
+                              type="date"
+                              required
+                              value={d.infantDob}
+                              onChange={(e) =>
+                                updateDetail(c.value, "infantDob", e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {c.value === "other" && (
+                        <div className="field">
+                          <label>{t("cond.otherDoc")}</label>
+                          <div
+                            className="dropzone"
+                            onClick={() => otherDocInput.current?.click()}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              const f = e.dataTransfer.files?.[0];
+                              if (f) setOtherDoc(f);
+                            }}
+                          >
+                            <div className="big">⬆</div>
+                            {otherDoc ? otherDoc.name : t("f.dropzone")}
+                          </div>
+                          <input
+                            ref={otherDocInput}
+                            type="file"
+                            accept="image/*,application/pdf"
+                            hidden
+                            onChange={(e) => {
+                              setOtherDoc(e.target.files?.[0] ?? null);
+                              e.target.value = "";
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="field">
               <label htmlFor="familyMembers">
