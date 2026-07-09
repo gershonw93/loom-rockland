@@ -498,21 +498,41 @@ export function EnrollmentForm() {
                 {t("f.family")}
                 <span className="req">*</span>
               </label>
-              <input
-                id="familyMembers"
-                name="familyMembers"
-                type="number"
-                min={1}
-                max={30}
-                step={1}
-                required
-                value={familyCount}
-                onChange={(e) => {
-                  const n = parseInt(e.target.value, 10);
-                  setFamilyCount(Number.isFinite(n) ? Math.min(30, Math.max(1, n)) : 1);
-                }}
-                style={{ maxWidth: 160 }}
-              />
+              <div className="stepper">
+                <button
+                  type="button"
+                  className="step-btn"
+                  aria-label="Decrease"
+                  onClick={() => setFamilyCount((n) => Math.max(1, n - 1))}
+                >
+                  −
+                </button>
+                <input
+                  id="familyMembers"
+                  name="familyMembers"
+                  type="number"
+                  min={1}
+                  max={30}
+                  step={1}
+                  required
+                  value={familyCount}
+                  onChange={(e) => {
+                    const n = parseInt(e.target.value, 10);
+                    setFamilyCount(
+                      Number.isFinite(n) ? Math.min(30, Math.max(1, n)) : 1
+                    );
+                  }}
+                  className="stepper-input"
+                />
+                <button
+                  type="button"
+                  className="step-btn"
+                  aria-label="Increase"
+                  onClick={() => setFamilyCount((n) => Math.min(30, n + 1))}
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
 

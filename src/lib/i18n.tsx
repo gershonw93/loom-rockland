@@ -26,7 +26,7 @@ const en: Dict = {
   "hero.title1": "A Helping",
   "hero.title2": "Hand Delivered",
   "hero.sub": "Weekly Meal Boxes & Support Services",
-  "hero.badge": "Free for Medicaid members · Rockland County",
+  "hero.badge": "100% Free · For Medicaid members",
   "hero.apply": "Apply Today →",
   "hero.how": "How it works",
 
@@ -55,8 +55,8 @@ const en: Dict = {
   "cta.btn": "Start your application →",
 
   "footer.tagline":
-    "Weekly meal boxes & support services for Rockland County families. Benefits and eligibility depend on program requirements.",
-  "footer.serving": "Serving Rockland County, NY",
+    "Weekly meal boxes & support services for Medicaid members in New York. Benefits and eligibility depend on program requirements.",
+  "footer.serving": "Serving Medicaid Members in New York",
   "footer.contact": "Contact",
   "footer.note": "A project by NYC4C.ORG · © LOOM Social Care Network",
 
@@ -182,7 +182,7 @@ const es: Dict = {
   "hero.title1": "Una mano",
   "hero.title2": "amiga a tu puerta",
   "hero.sub": "Cajas de comida semanales y servicios de apoyo",
-  "hero.badge": "Gratis para miembros de Medicaid · Condado de Rockland",
+  "hero.badge": "100% Gratis · Para miembros de Medicaid",
   "hero.apply": "Solicitar hoy →",
   "hero.how": "Cómo funciona",
 
@@ -211,8 +211,8 @@ const es: Dict = {
   "cta.btn": "Comienza tu solicitud →",
 
   "footer.tagline":
-    "Cajas de comida semanales y servicios de apoyo para familias del condado de Rockland. Los beneficios y la elegibilidad dependen de los requisitos del programa.",
-  "footer.serving": "Sirviendo al condado de Rockland, NY",
+    "Cajas de comida semanales y servicios de apoyo para miembros de Medicaid en Nueva York. Los beneficios y la elegibilidad dependen de los requisitos del programa.",
+  "footer.serving": "Sirviendo a miembros de Medicaid en Nueva York",
   "footer.contact": "Contacto",
   "footer.note": "Un proyecto de NYC4C.ORG · © LOOM Social Care Network",
 
@@ -346,7 +346,7 @@ const ht: Dict = {
   "hero.title1": "Yon Men",
   "hero.title2": "Èd Livre Lakay Ou",
   "hero.sub": "Bwat Manje Chak Semèn ak Sèvis Sipò",
-  "hero.badge": "Gratis pou manm Medicaid · Konte Rockland",
+  "hero.badge": "100% Gratis · Pou manm Medicaid",
   "hero.apply": "Aplike Jodi a →",
   "hero.how": "Kijan li mache",
 
@@ -375,8 +375,8 @@ const ht: Dict = {
   "cta.btn": "Kòmanse aplikasyon w →",
 
   "footer.tagline":
-    "Bwat manje chak semèn ak sèvis sipò pou fanmi nan Konte Rockland. Benefis ak kalifikasyon depann de kondisyon pwogram nan.",
-  "footer.serving": "N ap sèvi Konte Rockland, NY",
+    "Bwat manje chak semèn ak sèvis sipò pou manm Medicaid nan New York. Benefis ak kalifikasyon depann de kondisyon pwogram nan.",
+  "footer.serving": "N ap sèvi manm Medicaid nan New York",
   "footer.contact": "Kontak",
   "footer.note": "Yon pwojè NYC4C.ORG · © LOOM Social Care Network",
 

@@ -641,6 +641,59 @@ input[type="date"]::-webkit-date-and-time-value {
   }
 }
 
+/* number stepper (family members) */
+.stepper {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #fff;
+}
+.stepper:focus-within {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3.5px rgba(109, 63, 206, 0.15);
+}
+.step-btn {
+  border: none;
+  background: var(--lav-soft);
+  color: var(--purple);
+  font-size: 24px;
+  font-weight: 700;
+  font-family: inherit;
+  width: 52px;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+.step-btn:hover {
+  background: #e9e1f8;
+}
+.step-btn:active {
+  background: var(--band);
+}
+.stepper-input {
+  width: 72px;
+  text-align: center;
+  border: none !important;
+  border-left: 1.5px solid var(--line) !important;
+  border-right: 1.5px solid var(--line) !important;
+  border-radius: 0 !important;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: none !important;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.stepper-input::-webkit-outer-spin-button,
+.stepper-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* checkbox list */
 .checks {
   display: flex;

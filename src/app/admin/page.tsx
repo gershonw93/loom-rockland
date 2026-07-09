@@ -165,7 +165,7 @@ export default function AdminPage() {
   }
 
   function agentLink(code: string) {
-    return `${origin}/apply?ref=${code}`;
+    return `${origin}/?ref=${code}`;
   }
 
   // generate a QR code per agent link
@@ -176,7 +176,7 @@ export default function AdminPage() {
       const map: Record<string, string> = {};
       for (const a of agents) {
         try {
-          map[a.code] = await QRCode.toDataURL(`${origin}/apply?ref=${a.code}`, {
+          map[a.code] = await QRCode.toDataURL(`${origin}/?ref=${a.code}`, {
             width: 480,
             margin: 1,
             color: { dark: "#2e1a47", light: "#ffffff" },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import { Logo } from "@/components/Logo";
@@ -12,6 +13,12 @@ const QUALIFY_CHIPS = ELIGIBILITY_CATEGORIES.filter((c) => c.value !== "other");
 
 export default function Home() {
   const { t } = useI18n();
+  // Carry the agent referral (?ref=) from the landing URL through to the form.
+  const [applyHref, setApplyHref] = useState("/apply");
+  useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get("ref");
+    if (ref) setApplyHref(`/apply?ref=${encodeURIComponent(ref)}`);
+  }, []);
 
   return (
     <main>
@@ -24,7 +31,7 @@ export default function Home() {
         <Brand height={30} />
         <div className="right">
           <LanguageSwitcher />
-          <Link href="/apply" className="btn btn-primary" style={{ padding: "11px 22px" }}>
+          <Link href={applyHref} className="btn btn-primary" style={{ padding: "11px 22px" }}>
             {t("nav.apply")}
           </Link>
         </div>
@@ -39,7 +46,7 @@ export default function Home() {
           <p className="sub">{t("hero.sub")}</p>
           <span className="badge">{t("hero.badge")}</span>
           <div className="hero-cta">
-            <Link href="/apply" className="btn btn-primary">
+            <Link href={applyHref} className="btn btn-primary">
               {t("hero.apply")}
             </Link>
             <a href="#how" className="btn btn-light">
@@ -97,7 +104,7 @@ export default function Home() {
       <section className="section cta-strip">
         <h2>{t("cta.title")}</h2>
         <p>{t("cta.text")}</p>
-        <Link href="/apply" className="btn btn-light">
+        <Link href={applyHref} className="btn btn-light">
           {t("cta.btn")}
         </Link>
       </section>
