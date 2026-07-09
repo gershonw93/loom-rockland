@@ -20,7 +20,7 @@ type Dict = Record<string, string>;
 
 const en: Dict = {
   "nav.apply": "Apply Today",
-  "announce.text": "A free program for {b} in Rockland County",
+  "announce.text": "A free program for {b} in New York",
   "announce.b": "Medicaid members",
 
   "hero.title1": "A Helping",
@@ -176,7 +176,7 @@ const en: Dict = {
 
 const es: Dict = {
   "nav.apply": "Solicitar hoy",
-  "announce.text": "Un programa gratuito para {b} en el condado de Rockland",
+  "announce.text": "Un programa gratuito para {b} en Nueva York",
   "announce.b": "miembros de Medicaid",
 
   "hero.title1": "Una mano",
@@ -340,7 +340,7 @@ const es: Dict = {
 
 const ht: Dict = {
   "nav.apply": "Aplike Jodi a",
-  "announce.text": "Yon pwogram gratis pou {b} nan Konte Rockland",
+  "announce.text": "Yon pwogram gratis pou {b} nan New York",
   "announce.b": "manm Medicaid",
 
   "hero.title1": "Yon Men",
