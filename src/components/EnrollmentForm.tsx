@@ -208,6 +208,8 @@ export function EnrollmentForm() {
             </div>
           )}
           <p>{t("ok.body")}</p>
+          <p>{t("ok.body2")}</p>
+          <p>{t("ok.body3")}</p>
           <a href="/" className="btn btn-ghost">
             {t("ok.back")}
           </a>

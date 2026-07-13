@@ -162,10 +162,13 @@ const en: Dict = {
   "btn.submit": "Submit application",
   "btn.submitting": "Submitting…",
 
-  "ok.title": "Thank you for your application!",
+  "ok.title": "Thank you for submitting your details!",
   "ok.formNumberLabel": "Your application number",
   "ok.body":
-    "Your information has been received securely. A LOOM Care Team representative will contact you within 24–48 hours to finalize your enrollment and schedule your home support.",
+    "We're happy to let you know that your information has been received safely and securely.",
+  "ok.body2":
+    "A friendly LOOM office representative will reach out to you within the next 24–48 hours to help finalize your enrollment and complete your application. Please keep an eye out for our call!",
+  "ok.body3": "We are really looking forward to connecting with you soon!",
   "ok.back": "Back to home",
 
   "err.eligibility": "Please select at least one eligibility category.",
@@ -315,10 +318,13 @@ const es: Dict = {
   "btn.submit": "Enviar solicitud",
   "btn.submitting": "Enviando…",
 
-  "ok.title": "¡Gracias por tu solicitud!",
+  "ok.title": "¡Gracias por enviar tus datos!",
   "ok.formNumberLabel": "Tu número de solicitud",
   "ok.body":
-    "Tu información se recibió de forma segura. Un representante del Equipo de Cuidado de LOOM te contactará en 24–48 horas para finalizar tu inscripción y programar tu apoyo a domicilio.",
+    "Nos complace informarte que tu información se recibió de forma segura y protegida.",
+  "ok.body2":
+    "Un representante amable de la oficina de LOOM se comunicará contigo dentro de las próximas 24–48 horas para ayudarte a finalizar tu inscripción y completar tu solicitud. ¡Por favor, está atento a nuestra llamada!",
+  "ok.body3": "¡Esperamos con muchas ganas comunicarnos contigo pronto!",
   "ok.back": "Volver al inicio",
 
   "err.eligibility": "Por favor selecciona al menos una categoría de elegibilidad.",
@@ -479,10 +485,13 @@ const ht: Dict = {
   "btn.submit": "Voye aplikasyon",
   "btn.submitting": "N ap voye…",
 
-  "ok.title": "Mèsi pou aplikasyon w!",
+  "ok.title": "Mèsi paske w soumèt enfòmasyon w yo!",
   "ok.formNumberLabel": "Nimewo aplikasyon w",
   "ok.body":
-    "Nou resevwa enfòmasyon w yo an sekirite. Yon reprezantan Ekip Swen LOOM ap kontakte w nan 24–48 èdtan pou fini enskripsyon w epi pwograme sipò lakay ou.",
+    "Nou kontan fè w konnen nou resevwa enfòmasyon w yo an sekirite.",
+  "ok.body2":
+    "Yon reprezantan biwo LOOM ki janti ap kontakte w nan pwochen 24–48 èdtan pou ede w fini enskripsyon w epi konplete aplikasyon w. Tanpri veye apèl nou an!",
+  "ok.body3": "Nou vrèman ap tann pou nou konekte avè w byento!",
   "ok.back": "Tounen nan akèy",
 
   "err.eligibility": "Tanpri chwazi omwen yon kategori kalifikasyon.",
