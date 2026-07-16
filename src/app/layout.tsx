@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { VisitTracker } from "@/components/VisitTracker";
 
 export const metadata: Metadata = {
   title: "LOOM Rockland — A Helping Hand Delivered",
@@ -28,6 +29,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <VisitTracker />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import { Logo } from "@/components/Logo";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { SocialProofBadge } from "@/components/SocialProofBadge";
 import { useI18n, eligLabel } from "@/lib/i18n";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 
@@ -130,6 +131,8 @@ export default function Home() {
         </div>
         <div className="footer-note">{t("footer.note")}</div>
       </footer>
+
+      <SocialProofBadge />
     </main>
   );
 }

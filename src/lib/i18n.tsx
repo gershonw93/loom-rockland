@@ -22,6 +22,7 @@ const en: Dict = {
   "nav.apply": "Apply Today",
   "announce.text": "A free program for {b} in New York",
   "announce.b": "Medicaid members",
+  "badge.text": "{n} people have applied",
 
   "hero.title1": "A Helping",
   "hero.title2": "Hand Delivered",
@@ -181,6 +182,7 @@ const es: Dict = {
   "nav.apply": "Solicitar hoy",
   "announce.text": "Un programa gratuito para {b} en Nueva York",
   "announce.b": "miembros de Medicaid",
+  "badge.text": "{n} personas han aplicado",
 
   "hero.title1": "Una mano",
   "hero.title2": "amiga a tu puerta",
@@ -348,6 +350,7 @@ const ht: Dict = {
   "nav.apply": "Aplike Jodi a",
   "announce.text": "Yon pwogram gratis pou {b} nan New York",
   "announce.b": "manm Medicaid",
+  "badge.text": "{n} moun aplike",
 
   "hero.title1": "Yon Men",
   "hero.title2": "Èd Livre Lakay Ou",
