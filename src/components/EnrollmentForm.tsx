@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
 import { RELATIONSHIPS } from "@/lib/relationships";
 import { InsuranceExamples } from "@/components/InsuranceExamples";
+import { ShareCard } from "@/components/ShareCard";
 import { useI18n, eligLabel } from "@/lib/i18n";
 
 interface Member {
@@ -214,6 +215,7 @@ export function EnrollmentForm() {
             {t("ok.back")}
           </a>
         </div>
+        <ShareCard />
       </div>
     );
   }

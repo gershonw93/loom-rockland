@@ -254,6 +254,44 @@ img {
   background: #22c55e;
   animation: sp-pulse 1.8s infinite;
 }
+.sp-close {
+  flex: 0 0 auto;
+  margin-left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: var(--lav);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sp-close:hover {
+  background: var(--line);
+  color: var(--deep);
+}
+@media (max-width: 560px) {
+  .social-proof {
+    left: 10px;
+    bottom: 10px;
+    padding: 7px 10px 7px 11px;
+    font-size: 12px;
+    gap: 7px;
+  }
+  .sp-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .sp-close {
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+  }
+}
 @keyframes sp-pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
@@ -1311,6 +1349,106 @@ tbody tr:hover {
   font-size: 12.5px;
   color: var(--muted);
   margin-top: 26px;
+}
+
+/* ── Sharing & Referral card ───────────────────────────────────── */
+.share-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 26px 22px;
+  margin: 18px auto 0;
+  max-width: 460px;
+  text-align: center;
+}
+.share-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e2a5e; /* navy */
+  margin: 0 0 6px;
+}
+.share-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 auto 20px;
+  max-width: 34ch;
+}
+.btn-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: #25d366;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.32);
+  transition: transform 0.12s, background 0.15s;
+}
+.btn-whatsapp:hover {
+  background: #1ebe5a;
+  transform: translateY(-1px);
+}
+.share-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0;
+}
+.share-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.12s, filter 0.15s;
+}
+.share-circle:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+.share-circle.tg {
+  background: #229ed9;
+}
+.share-circle.fb {
+  background: #1877f2;
+}
+.share-circle.msg {
+  background: #0084ff;
+}
+.share-utils {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+.share-util {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 14px;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--deep);
+  background: var(--lav-soft);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.share-util:hover {
+  border-color: var(--purple);
+  color: var(--purple);
 }
 
 /* admin header */

@@ -2,29 +2,32 @@ import "server-only";
 import { db } from "@/lib/firebaseAdmin";
 
 const VISITS_DOC = ["counters", "visits"] as const;
-// Optional display offset so the badge doesn't start at 0. Set to a starting
-// number if you want the counter to begin higher.
-const VISIT_BASE = 0;
+// The displayed number grows by 1 for every N raw visits, so growth looks
+// natural and credible instead of jumping on every page view.
+const VISITS_PER_INCREMENT = 7;
 
-/** Atomically increment the global visit counter and return the new total. */
+/** Increment the raw visit count; return the (slowed) displayed total. */
 export async function bumpVisits(): Promise<number> {
   const ref = db().collection(VISITS_DOC[0]).doc(VISITS_DOC[1]);
-  return db().runTransaction(async (tx) => {
+  const raw = await db().runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     const cur =
-      snap.exists && typeof snap.data()?.count === "number"
-        ? (snap.data()!.count as number)
-        : VISIT_BASE;
+      snap.exists && typeof snap.data()?.raw === "number"
+        ? (snap.data()!.raw as number)
+        : 0;
     const next = cur + 1;
-    tx.set(ref, { count: next }, { merge: true });
+    tx.set(ref, { raw: next }, { merge: true });
     return next;
   });
+  return Math.floor(raw / VISITS_PER_INCREMENT);
 }
 
-/** Read the current global visit count without incrementing. */
+/** Read the current displayed total without incrementing. */
 export async function getVisits(): Promise<number> {
   const snap = await db().collection(VISITS_DOC[0]).doc(VISITS_DOC[1]).get();
-  return snap.exists && typeof snap.data()?.count === "number"
-    ? (snap.data()!.count as number)
-    : VISIT_BASE;
+  const raw =
+    snap.exists && typeof snap.data()?.raw === "number"
+      ? (snap.data()!.raw as number)
+      : 0;
+  return Math.floor(raw / VISITS_PER_INCREMENT);
 }

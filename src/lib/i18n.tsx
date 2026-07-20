@@ -171,6 +171,15 @@ const en: Dict = {
     "A friendly LOOM office representative will reach out to you within the next 24–48 hours to help finalize your enrollment and complete your application. Please keep an eye out for our call!",
   "ok.body3": "We are really looking forward to connecting with you soon!",
   "ok.back": "Back to home",
+  "share.title": "Be nice! Help a friend.",
+  "share.subtitle":
+    "Help a friend or neighbor get approved. Share Loom Rockland with them!",
+  "share.whatsapp": "Share on WhatsApp",
+  "share.native": "Share",
+  "share.copyLink": "Copy link",
+  "share.copied": "Copied!",
+  "share.msg":
+    "Be nice! Help a friend. I just applied for the Loom Social Care Network—check if you qualify too! Apply now at https://loomrockland.org",
 
   "err.eligibility": "Please select at least one eligibility category.",
   "err.generic": "Something went wrong. Please try again.",
@@ -328,6 +337,15 @@ const es: Dict = {
     "Un representante amable de la oficina de LOOM se comunicará contigo dentro de las próximas 24–48 horas para ayudarte a finalizar tu inscripción y completar tu solicitud. ¡Por favor, está atento a nuestra llamada!",
   "ok.body3": "¡Esperamos con muchas ganas comunicarnos contigo pronto!",
   "ok.back": "Volver al inicio",
+  "share.title": "¡Sé amable! Ayuda a un amigo.",
+  "share.subtitle":
+    "Ayuda a un amigo o vecino a ser aprobado. ¡Comparte Loom Rockland con ellos!",
+  "share.whatsapp": "Compartir por WhatsApp",
+  "share.native": "Compartir",
+  "share.copyLink": "Copiar enlace",
+  "share.copied": "¡Copiado!",
+  "share.msg":
+    "¡Sé amable! Ayuda a un amigo. Acabo de solicitar unirme a Loom Social Care Network—¡mira si tú también calificas! Aplica ahora en https://loomrockland.org",
 
   "err.eligibility": "Por favor selecciona al menos una categoría de elegibilidad.",
   "err.generic": "Algo salió mal. Inténtalo de nuevo.",
@@ -496,6 +514,15 @@ const ht: Dict = {
     "Yon reprezantan biwo LOOM ki janti ap kontakte w nan pwochen 24–48 èdtan pou ede w fini enskripsyon w epi konplete aplikasyon w. Tanpri veye apèl nou an!",
   "ok.body3": "Nou vrèman ap tann pou nou konekte avè w byento!",
   "ok.back": "Tounen nan akèy",
+  "share.title": "Se pou ou janti! Ede yon zanmi.",
+  "share.subtitle":
+    "Ede yon zanmi oswa yon vwazen jwenn apwobasyon. Pataje Loom Rockland avèk yo!",
+  "share.whatsapp": "Pataje sou WhatsApp",
+  "share.native": "Pataje",
+  "share.copyLink": "Kopye lyen",
+  "share.copied": "Kopye!",
+  "share.msg":
+    "Se pou ou janti! Ede yon zanmi. Mwen fèk aplike pou Loom Social Care Network—tcheke si ou kalifye tou! Aplike kounye a nan https://loomrockland.org",
 
   "err.eligibility": "Tanpri chwazi omwen yon kategori kalifikasyon.",
   "err.generic": "Yon bagay pa mache. Tanpri eseye ankò.",
