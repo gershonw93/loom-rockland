@@ -73,7 +73,7 @@ export default function Home() {
       </section>
 
       {/* Who qualifies */}
-      <section className="section">
+      <section className="section" id="qualify">
         <div className="qualify">
           <div>
             <p className="eyebrow">{t("qual.eyebrow")}</p>
@@ -113,23 +113,67 @@ export default function Home() {
       {/* Footer */}
       <footer className="site-footer">
         <div className="footer-inner">
-          <div>
+          <div style={{ maxWidth: "34ch" }}>
             <Logo variant="full" tone="white" height={50} className="logo-white" />
             <div className="brand-rockland white" style={{ marginBottom: 14 }}>
               Rockland
             </div>
-            <p style={{ maxWidth: "34ch", margin: 0, fontSize: 14 }}>
-              {t("footer.tagline")}
-            </p>
+            <p style={{ margin: 0, fontSize: 14 }}>{t("footer.tagline")}</p>
           </div>
+
+          <div>
+            <div className="footer-col-title">{t("footer.linksTitle")}</div>
+            <ul className="footer-links">
+              <li>
+                <Link href="/">{t("footer.home")}</Link>
+              </li>
+              <li>
+                <Link href={applyHref}>{t("footer.enroll")}</Link>
+              </li>
+              <li>
+                <a href="/#how">{t("footer.how")}</a>
+              </li>
+              <li>
+                <a href="/#qualify">{t("footer.qualify")}</a>
+              </li>
+              <li>
+                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
+                  {t("footer.about")}
+                </a>
+              </li>
+              <li>
+                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
+                  {t("footer.services")}
+                </a>
+              </li>
+              <li>
+                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
+                  {t("footer.faq")}
+                </a>
+              </li>
+              <li>
+                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
+                  {t("footer.privacy")}
+                </a>
+              </li>
+              <li>
+                <a href="mailto:support@loomrockland.org">{t("footer.contactUs")}</a>
+              </li>
+            </ul>
+          </div>
+
           <div className="contact">
             <div className="contact-label">{t("footer.contact")}</div>
-            <a href="mailto:support@loomrockland.org">✉ support@loomrockland.org</a>
-            <br />
-            {t("footer.serving")}
+            <span className="footer-contact-line">
+              <a href="mailto:support@loomrockland.org">✉ support@loomrockland.org</a>
+            </span>
+            <span className="footer-contact-line">
+              <a href="tel:+19294809101">✆ (929) 480-9101</a>
+            </span>
+            <span className="footer-contact-line">{t("footer.serving")}</span>
           </div>
         </div>
-        <div className="footer-note">{t("footer.note")}</div>
+        <div className="footer-note">{t("footer.rights")}</div>
       </footer>
 
       <SocialProofBadge />

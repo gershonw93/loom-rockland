@@ -8,13 +8,19 @@ import {
   type ReactNode,
 } from "react";
 
-export type Locale = "en" | "es" | "ht";
+export type Locale = "en" | "es" | "ht" | "fa";
 
-export const LOCALES: { code: Locale; label: string; short: string }[] = [
-  { code: "en", label: "English", short: "EN" },
-  { code: "es", label: "Español", short: "ES" },
-  { code: "ht", label: "Kreyòl Ayisyen", short: "HT" },
+// Native, full names shown in the language switcher (no ISO codes).
+export const LOCALES: { code: Locale; label: string; dir: "ltr" | "rtl" }[] = [
+  { code: "en", label: "English", dir: "ltr" },
+  { code: "es", label: "Español", dir: "ltr" },
+  { code: "ht", label: "Kreyòl Ayisyen", dir: "ltr" },
+  { code: "fa", label: "فارسی", dir: "rtl" },
 ];
+
+export function localeDir(l: Locale): "ltr" | "rtl" {
+  return LOCALES.find((x) => x.code === l)?.dir ?? "ltr";
+}
 
 type Dict = Record<string, string>;
 
@@ -22,7 +28,7 @@ const en: Dict = {
   "nav.apply": "Apply Today",
   "announce.text": "A free program for {b} in New York",
   "announce.b": "Medicaid members",
-  "badge.text": "{n} people have applied",
+  "badge.text": "{n} families approved by the Loom network",
 
   "hero.title1": "A Helping",
   "hero.title2": "Hand Delivered",
@@ -60,6 +66,18 @@ const en: Dict = {
   "footer.serving": "Serving Medicaid Members in New York",
   "footer.contact": "Contact",
   "footer.note": "A project by NYC4C.ORG · © LOOM Social Care Network",
+  "footer.linksTitle": "Quick Links",
+  "footer.home": "Home",
+  "footer.about": "About Us",
+  "footer.privacy": "Privacy Policy",
+  "footer.faq": "FAQ",
+  "footer.enroll": "Enroll Now",
+  "footer.how": "How it works",
+  "footer.qualify": "Who Qualifies",
+  "footer.services": "Our Services",
+  "footer.contactUs": "Contact Us",
+  "footer.rights":
+    "© 2026 LOOM Social Care Network. All rights reserved.",
 
   // chips (who qualifies)
   "chip.pregnancy": "Pregnancy or postpartum",
@@ -163,23 +181,35 @@ const en: Dict = {
   "btn.submit": "Submit application",
   "btn.submitting": "Submitting…",
 
-  "ok.title": "Thank you for submitting your details!",
+  "ok.title": "Application received!",
   "ok.formNumberLabel": "Your application number",
   "ok.body":
-    "We're happy to let you know that your information has been received safely and securely.",
+    "Please keep your phone handy and make sure to answer so we can complete your application.",
   "ok.body2":
-    "A friendly LOOM office representative will reach out to you within the next 24–48 hours to help finalize your enrollment and complete your application. Please keep an eye out for our call!",
-  "ok.body3": "We are really looking forward to connecting with you soon!",
+    "You've successfully completed the initial application! Great job. Your information is safely received.",
+  "ok.body3":
+    "The final step is a quick, required conversation with an Enrollment Officer from the LOOM office to verify everything and finalize your enrollment. An Enrollment Officer will call you within the next 48 hours.",
   "ok.back": "Back to home",
-  "share.title": "Be nice! Help a friend.",
-  "share.subtitle":
-    "Help a friend or neighbor get approved. Share Loom Rockland with them!",
+  "share.title":
+    "Thank you for your application! Help a friend or neighbor get approved. Share Loom Rockland with them!",
+  "share.subtitle": "",
   "share.whatsapp": "Share on WhatsApp",
   "share.native": "Share",
   "share.copyLink": "Copy link",
   "share.copied": "Copied!",
   "share.msg":
-    "Be nice! Help a friend. I just applied for the Loom Social Care Network—check if you qualify too! Apply now at https://loomrockland.org",
+    "I found an excellent free fresh food delivery service for NYC residents (eligible for Medicaid). It's sponsored by the state and does NOT affect Food Stamps. I registered and it seems great. I highly recommend you check if you're eligible too: https://loomrockland.org/",
+  "share.tplEmailTitle": "Email template",
+  "share.tplEmailSubjectLabel": "Subject",
+  "share.tplEmailSubject":
+    "Recommended: Free Fresh Food Delivery Service for NYC Residents",
+  "share.tplEmailBody":
+    "Hello friend,\n\nI wanted to share an excellent initiative from the NYS Social Care Network providing free fresh food delivered to your door. It is available to NYC residents eligible for Medicaid, and it does NOT affect Food Stamps (SNAP).\n\nI registered, and the process was quick. Check your eligibility and sign up here: https://loomrockland.org/\n\nBest regards,",
+  "share.tplSmsTitle": "SMS / WhatsApp template",
+  "share.tplSmsBody":
+    "I found an excellent free fresh food delivery service for NYC residents (eligible for Medicaid). It's sponsored by the state and does NOT affect Food Stamps. I registered and it seems great. I highly recommend you check if you're eligible too: https://loomrockland.org/",
+  "share.copyEmail": "Copy email",
+  "share.copyMsg": "Copy message",
 
   "err.eligibility": "Please select at least one eligibility category.",
   "err.generic": "Something went wrong. Please try again.",
@@ -191,7 +221,7 @@ const es: Dict = {
   "nav.apply": "Solicitar hoy",
   "announce.text": "Un programa gratuito para {b} en Nueva York",
   "announce.b": "miembros de Medicaid",
-  "badge.text": "{n} personas han aplicado",
+  "badge.text": "{n} familias aprobadas por la red de Loom",
 
   "hero.title1": "Una mano",
   "hero.title2": "amiga a tu puerta",
@@ -229,6 +259,18 @@ const es: Dict = {
   "footer.serving": "Sirviendo a miembros de Medicaid en Nueva York",
   "footer.contact": "Contacto",
   "footer.note": "Un proyecto de NYC4C.ORG · © LOOM Social Care Network",
+  "footer.linksTitle": "Enlaces rápidos",
+  "footer.home": "Inicio",
+  "footer.about": "Sobre nosotros",
+  "footer.privacy": "Política de privacidad",
+  "footer.faq": "Preguntas frecuentes",
+  "footer.enroll": "Inscríbete ahora",
+  "footer.how": "Cómo funciona",
+  "footer.qualify": "Quién califica",
+  "footer.services": "Nuestros servicios",
+  "footer.contactUs": "Contáctanos",
+  "footer.rights":
+    "© 2026 LOOM Social Care Network. Todos los derechos reservados.",
 
   "chip.pregnancy": "Embarazo o posparto",
   "chip.food": "Inseguridad alimentaria",
@@ -329,23 +371,35 @@ const es: Dict = {
   "btn.submit": "Enviar solicitud",
   "btn.submitting": "Enviando…",
 
-  "ok.title": "¡Gracias por enviar tus datos!",
+  "ok.title": "¡Solicitud recibida!",
   "ok.formNumberLabel": "Tu número de solicitud",
   "ok.body":
-    "Nos complace informarte que tu información se recibió de forma segura y protegida.",
+    "Por favor, ten tu teléfono a la mano y asegúrate de contestar para que podamos completar tu solicitud.",
   "ok.body2":
-    "Un representante amable de la oficina de LOOM se comunicará contigo dentro de las próximas 24–48 horas para ayudarte a finalizar tu inscripción y completar tu solicitud. ¡Por favor, está atento a nuestra llamada!",
-  "ok.body3": "¡Esperamos con muchas ganas comunicarnos contigo pronto!",
+    "¡Has completado con éxito la solicitud inicial! Buen trabajo. Tu información se recibió de forma segura.",
+  "ok.body3":
+    "El último paso es una conversación rápida y obligatoria con un Oficial de Inscripción de la oficina de LOOM para verificar todo y finalizar tu inscripción. Un Oficial de Inscripción te llamará dentro de las próximas 48 horas.",
   "ok.back": "Volver al inicio",
-  "share.title": "¡Sé amable! Ayuda a un amigo.",
-  "share.subtitle":
-    "Ayuda a un amigo o vecino a ser aprobado. ¡Comparte Loom Rockland con ellos!",
+  "share.title":
+    "¡Gracias por tu solicitud! Ayuda a un amigo o vecino a ser aprobado. ¡Comparte Loom Rockland con ellos!",
+  "share.subtitle": "",
   "share.whatsapp": "Compartir por WhatsApp",
   "share.native": "Compartir",
   "share.copyLink": "Copiar enlace",
   "share.copied": "¡Copiado!",
   "share.msg":
-    "¡Sé amable! Ayuda a un amigo. Acabo de solicitar unirme a Loom Social Care Network—¡mira si tú también calificas! Aplica ahora en https://loomrockland.org",
+    "Encontré un excelente servicio gratuito de entrega de comida fresca para residentes de NYC (elegibles para Medicaid). Está patrocinado por el estado y NO afecta los cupones de alimentos (SNAP). Me registré y parece excelente. Te recomiendo mucho que verifiques si también eres elegible: https://loomrockland.org/",
+  "share.tplEmailTitle": "Plantilla de correo",
+  "share.tplEmailSubjectLabel": "Asunto",
+  "share.tplEmailSubject":
+    "Recomendado: Servicio gratuito de entrega de comida fresca para residentes de NYC",
+  "share.tplEmailBody":
+    "Hola amigo,\n\nQuería compartir una excelente iniciativa de la NYS Social Care Network que ofrece comida fresca gratis entregada en tu puerta. Está disponible para residentes de NYC elegibles para Medicaid, y NO afecta los cupones de alimentos (SNAP).\n\nMe registré y el proceso fue rápido. Verifica tu elegibilidad e inscríbete aquí: https://loomrockland.org/\n\nSaludos,",
+  "share.tplSmsTitle": "Plantilla de SMS / WhatsApp",
+  "share.tplSmsBody":
+    "Encontré un excelente servicio gratuito de entrega de comida fresca para residentes de NYC (elegibles para Medicaid). Está patrocinado por el estado y NO afecta los cupones de alimentos. Me registré y parece excelente. Te recomiendo mucho que verifiques si también eres elegible: https://loomrockland.org/",
+  "share.copyEmail": "Copiar correo",
+  "share.copyMsg": "Copiar mensaje",
 
   "err.eligibility": "Por favor selecciona al menos una categoría de elegibilidad.",
   "err.generic": "Algo salió mal. Inténtalo de nuevo.",
@@ -368,7 +422,7 @@ const ht: Dict = {
   "nav.apply": "Aplike Jodi a",
   "announce.text": "Yon pwogram gratis pou {b} nan New York",
   "announce.b": "manm Medicaid",
-  "badge.text": "{n} moun aplike",
+  "badge.text": "{n} fanmi apwouve pa rezo Loom",
 
   "hero.title1": "Yon Men",
   "hero.title2": "Èd Livre Lakay Ou",
@@ -406,6 +460,18 @@ const ht: Dict = {
   "footer.serving": "N ap sèvi manm Medicaid nan New York",
   "footer.contact": "Kontak",
   "footer.note": "Yon pwojè NYC4C.ORG · © LOOM Social Care Network",
+  "footer.linksTitle": "Lyen rapid",
+  "footer.home": "Akèy",
+  "footer.about": "Konsènan nou",
+  "footer.privacy": "Règleman sou vi prive",
+  "footer.faq": "Kesyon yo poze souvan",
+  "footer.enroll": "Enskri kounye a",
+  "footer.how": "Kijan li mache",
+  "footer.qualify": "Kiyès ki kalifye",
+  "footer.services": "Sèvis nou yo",
+  "footer.contactUs": "Kontakte nou",
+  "footer.rights":
+    "© 2026 LOOM Social Care Network. Tout dwa rezève.",
 
   "chip.pregnancy": "Gwosès oswa apre akouchman",
   "chip.food": "Mank manje",
@@ -506,23 +572,35 @@ const ht: Dict = {
   "btn.submit": "Voye aplikasyon",
   "btn.submitting": "N ap voye…",
 
-  "ok.title": "Mèsi paske w soumèt enfòmasyon w yo!",
+  "ok.title": "Nou resevwa aplikasyon an!",
   "ok.formNumberLabel": "Nimewo aplikasyon w",
   "ok.body":
-    "Nou kontan fè w konnen nou resevwa enfòmasyon w yo an sekirite.",
+    "Tanpri kenbe telefòn ou toupre epi asire w ou reponn pou nou ka konplete aplikasyon w.",
   "ok.body2":
-    "Yon reprezantan biwo LOOM ki janti ap kontakte w nan pwochen 24–48 èdtan pou ede w fini enskripsyon w epi konplete aplikasyon w. Tanpri veye apèl nou an!",
-  "ok.body3": "Nou vrèman ap tann pou nou konekte avè w byento!",
+    "Ou fè premye aplikasyon an avèk siksè! Bèl travay. Nou resevwa enfòmasyon w yo an sekirite.",
+  "ok.body3":
+    "Dènye etap la se yon ti konvèsasyon rapid ki obligatwa ak yon Ofisye Enskripsyon nan biwo LOOM pou verifye tout bagay epi finalize enskripsyon w. Yon Ofisye Enskripsyon ap rele w nan pwochen 48 èdtan.",
   "ok.back": "Tounen nan akèy",
-  "share.title": "Se pou ou janti! Ede yon zanmi.",
-  "share.subtitle":
-    "Ede yon zanmi oswa yon vwazen jwenn apwobasyon. Pataje Loom Rockland avèk yo!",
+  "share.title":
+    "Mèsi pou aplikasyon w! Ede yon zanmi oswa yon vwazen jwenn apwobasyon. Pataje Loom Rockland avèk yo!",
+  "share.subtitle": "",
   "share.whatsapp": "Pataje sou WhatsApp",
   "share.native": "Pataje",
   "share.copyLink": "Kopye lyen",
   "share.copied": "Kopye!",
   "share.msg":
-    "Se pou ou janti! Ede yon zanmi. Mwen fèk aplike pou Loom Social Care Network—tcheke si ou kalifye tou! Aplike kounye a nan https://loomrockland.org",
+    "Mwen jwenn yon bon sèvis gratis ki livre manje fre pou rezidan NYC (ki kalifye pou Medicaid). Se leta ki peye pou li epi li PA afekte Food Stamps (SNAP). Mwen enskri epi li sanble trè bon. Mwen rekòmande w tcheke si ou kalifye tou: https://loomrockland.org/",
+  "share.tplEmailTitle": "Modèl imèl",
+  "share.tplEmailSubjectLabel": "Sijè",
+  "share.tplEmailSubject":
+    "Rekòmande: Sèvis gratis pou livre manje fre pou rezidan NYC",
+  "share.tplEmailBody":
+    "Bonjou zanmi,\n\nMwen te vle pataje yon bèl inisyativ NYS Social Care Network ki bay manje fre gratis livre devan pòt ou. Li disponib pou rezidan NYC ki kalifye pou Medicaid, epi li PA afekte Food Stamps (SNAP).\n\nMwen enskri, epi pwosesis la te rapid. Tcheke kalifikasyon w epi enskri isit la: https://loomrockland.org/\n\nBon vwayaj,",
+  "share.tplSmsTitle": "Modèl SMS / WhatsApp",
+  "share.tplSmsBody":
+    "Mwen jwenn yon bon sèvis gratis ki livre manje fre pou rezidan NYC (ki kalifye pou Medicaid). Se leta ki peye pou li epi li PA afekte Food Stamps. Mwen enskri epi li sanble trè bon. Mwen rekòmande w tcheke si ou kalifye tou: https://loomrockland.org/",
+  "share.copyEmail": "Kopye imèl",
+  "share.copyMsg": "Kopye mesaj",
 
   "err.eligibility": "Tanpri chwazi omwen yon kategori kalifikasyon.",
   "err.generic": "Yon bagay pa mache. Tanpri eseye ankò.",
@@ -541,7 +619,208 @@ const ht: Dict = {
   "elig.other": "Lòt",
 };
 
-const DICTS: Record<Locale, Dict> = { en, es, ht };
+const fa: Dict = {
+  "nav.apply": "امروز ثبت‌نام کنید",
+  "announce.text": "یک برنامه رایگان برای {b} در نیویورک",
+  "announce.b": "اعضای مدیکید",
+  "badge.text": "{n} خانواده توسط شبکه Loom تأیید شده‌اند",
+
+  "hero.title1": "یک دست",
+  "hero.title2": "یاری، درِ خانه شما",
+  "hero.sub": "جعبه‌های غذای هفتگی و خدمات پشتیبانی",
+  "hero.badge": "۱۰۰٪ رایگان · برای اعضای مدیکید",
+  "hero.apply": "امروز ثبت‌نام کنید ←",
+  "hero.how": "چطور کار می‌کند",
+
+  "how.eyebrow": "چطور کار می‌کند",
+  "how.title": "ما آن را ساده می‌کنیم.",
+  "how.s1t": "در ثبت‌نام کمکتان می‌کنیم",
+  "how.s1d": "یک فرم کوتاه پر کنید. تیم ما به شما در ثبت‌نام کمک می‌کند و واجد شرایط بودنتان را تأیید می‌کند.",
+  "how.s2t": "جعبه‌های تازه، هر هفته",
+  "how.s2d": "جعبه‌های غذای مغذی هر هفته درِ خانه شما تحویل داده می‌شود — کاملاً رایگان.",
+  "how.s3t": "پشتیبانی دوستانه",
+  "how.s3d": "از ابتدا تا انتها همراه شما هستیم، با پشتیبانی دلسوزانه هر زمان که نیاز داشته باشید.",
+
+  "qual.eyebrow": "چه کسانی واجد شرایط هستند؟",
+  "qual.title": "پشتیبانی برای کسانی که بیش از همه نیاز دارند.",
+  "qual.lead":
+    "اگر شما یا یکی از اعضای خانواده‌تان با هر یک از این موارد روبرو هستید، ممکن است واجد شرایط دریافت جعبه‌های غذای هفتگی و خدمات پشتیبانی باشید.",
+  "qual.imgalt": "یک جعبه غذای هفتگی LOOM",
+
+  "check.1": "در ثبت‌نام به شما کمک می‌کنیم",
+  "check.2": "جعبه‌های غذای تازه به‌صورت هفتگی تحویل داده می‌شود",
+  "check.3": "پشتیبانی دوستانه از ابتدا تا انتها",
+
+  "cta.title": "آماده شروع هستید؟",
+  "cta.text":
+    "فقط چند دقیقه طول می‌کشد. یک نماینده تیم مراقبت LOOM طی ۲۴ تا ۴۸ ساعت با شما تماس می‌گیرد تا ثبت‌نامتان را نهایی کند.",
+  "cta.btn": "درخواست خود را شروع کنید ←",
+
+  "footer.tagline":
+    "جعبه‌های غذای هفتگی و خدمات پشتیبانی برای اعضای مدیکید در نیویورک. مزایا و واجد شرایط بودن به الزامات برنامه بستگی دارد.",
+  "footer.serving": "در خدمت اعضای مدیکید در نیویورک",
+  "footer.contact": "تماس",
+  "footer.note": "پروژه‌ای از NYC4C.ORG · © LOOM Social Care Network",
+  "footer.linksTitle": "پیوندهای سریع",
+  "footer.home": "خانه",
+  "footer.about": "درباره ما",
+  "footer.privacy": "سیاست حفظ حریم خصوصی",
+  "footer.faq": "سؤالات متداول",
+  "footer.enroll": "همین حالا ثبت‌نام کنید",
+  "footer.how": "چطور کار می‌کند",
+  "footer.qualify": "چه کسانی واجد شرایط هستند",
+  "footer.services": "خدمات ما",
+  "footer.contactUs": "تماس با ما",
+  "footer.rights": "© ۲۰۲۶ LOOM Social Care Network. تمامی حقوق محفوظ است.",
+
+  "chip.pregnancy": "بارداری یا پس از زایمان",
+  "chip.food": "ناامنی غذایی",
+  "chip.housing": "ناامنی مسکن",
+  "chip.chronic": "دیابت و فشار خون",
+  "chip.heart": "بیماری‌های قلبی",
+  "chip.mental": "مشکلات سلامت روان",
+  "chip.develop": "ناتوانی‌های رشدی",
+  "chip.physical": "ناتوانی‌های جسمی",
+  "chip.medicaid": "اعضای مدیکید",
+  "chip.assistance": "SNAP / WIC / SSI / TANF",
+
+  "step.referral": "معرفی",
+  "step.details": "اطلاعات شما",
+  "step.eligibility": "واجد شرایط بودن",
+  "step.insurance": "بیمه",
+  "wiz.progress": "مرحله {n} از {total} · {step}",
+  "wiz.medicaid":
+    "{b} برای تکمیل ثبت‌نام به شناسه مدیکید (CIN) یا کارت بیمه خود نیاز دارید.",
+  "wiz.medicaidB": "این برنامه برای اعضای مدیکید است.",
+  "wiz.refBadge": "✓ شما از طریق معرفی یک نماینده LOOM درخواست می‌دهید.",
+  "wiz.home": "→ خانه",
+
+  "s1.eyebrow": "معرفی",
+  "s1.title": "چه کسی شما را معرفی کرد؟",
+  "s1.hint": "به ما بگویید چه کسی درباره LOOM به شما گفت تا از او تشکر کنیم.",
+  "s1.label": "چه کسی شما را معرفی کرد؟",
+  "s1.placeholder": "نام شخص یا نماینده‌ای که شما را معرفی کرد",
+
+  "s2.eyebrow": "اطلاعات شما",
+  "s2.title": "درباره خودتان به ما بگویید",
+  "s2.hint": "جعبه‌های غذا را کجا تحویل دهیم؟",
+  "f.firstName": "نام",
+  "f.lastName": "نام خانوادگی",
+  "f.dob": "تاریخ تولد",
+  "f.address": "آدرس تحویل جعبه‌های غذا",
+  "f.street": "آدرس خیابان",
+  "f.unit": "آپارتمان / واحد (اختیاری)",
+  "f.city": "شهر",
+  "f.state": "ایالت",
+  "f.zip": "کد پستی",
+  "f.phone": "شماره تلفن همراه (برای تماس و پیامک)",
+  "f.phonePh": "+1 (845) 000-0000",
+
+  "s3.eyebrow": "واجد شرایط بودن",
+  "s3.title": "وضعیت سلامتی که به شما مربوط می‌شود را انتخاب کنید",
+  "s3.hint": "همه موارد مرتبط را انتخاب کنید.",
+  "cond.detailsTitle": "جزئیات وضعیت",
+  "cond.clientName": "نام مراجع",
+  "cond.clientNameHint": "نام شخصی که این وضعیت به او مربوط می‌شود",
+  "cond.miscarriageDate": "تاریخ سقط جنین",
+  "cond.infantName": "نام نوزاد",
+  "cond.infantDob": "تاریخ تولد نوزاد",
+  "cond.otherDoc": "مدرک پشتیبان (ترجیحاً)",
+  "f.family": "تعداد اعضای خانواده (شامل خودتان)",
+
+  "s4.eyebrow": "بیمه",
+  "s4.title": "اطلاعات بیمه",
+  "s4.hint":
+    "برای تأیید سریع‌تر، عکسی از کارت بیمه خود بارگذاری کنید — یا شماره شناسه مدیکید (CIN) خود را در زیر وارد کنید.",
+  "s4.fasterBadge": "⚡ تأیید سریع‌تر",
+  "s4.uploadLabel": "کارت بیمه خود را بارگذاری کنید (توصیه می‌شود)",
+  "s4.orLabel": "یا شناسه مدیکید (CIN) خود را وارد کنید",
+  "f.photos": "عکس‌های کارت بیمه",
+  "f.photosHint":
+    "لطفاً عکس کارت بیمه خود و همه اعضای خانواده ذکرشده در این درخواست را بارگذاری کنید.",
+  "f.dropzone": "برای انتخاب فایل کلیک کنید یا آن را اینجا بکشید",
+  "f.cin": "شماره شناسه مدیکید (CIN) — در صورت نبود عکس",
+  "f.cinHint": "در صورت داشتن، شناسه مدیکید (CIN) متقاضی اصلی را وارد کنید.",
+  "f.cinPh": "شماره CIN مدیکید {n}",
+  "f.cinPlain": "شناسه مدیکید (CIN)",
+  "f.cinApplicant": "شناسه مدیکید (CIN) متقاضی اصلی",
+  "f.addCin": "+ افزودن CIN دیگر",
+
+  "members.title": "افزودن اعضای خانواده",
+  "members.hint":
+    "شما {n} نفر را در خانوار خود ذکر کردید. لطفاً هر عضو اضافی خانواده را در زیر اضافه کنید.",
+  "members.label": "عضو خانواده {n}",
+  "f.fullName": "نام کامل",
+  "f.relationship": "نسبت",
+  "f.memberCin": "شماره شناسه مدیکید (CIN)",
+  "rel.select": "انتخاب کنید…",
+  "rel.husband": "همسر (شوهر)",
+  "rel.wife": "همسر (زن)",
+  "rel.child": "فرزند",
+  "rel.mother": "مادر",
+  "rel.parent": "والد",
+  "rel.other": "سایر",
+
+  "ins.note":
+    "{b} شما همان Member ID / CIN# است که روی کارت بیمه‌تان چاپ شده — برای مثال، {ex}. یک عکس واضح از کارت بگیرید، یا شماره را در زیر تایپ کنید. محل آن روی کارت‌های رایج در اینجاست:",
+  "ins.noteB": "شناسه مدیکید (CIN)",
+  "ins.cap1": "پایین سمت راست: «CIN#»",
+  "ins.cap2": "روی کارت: «ID Number»",
+  "ins.cap3": "زیر نام: «Member ID»",
+
+  "btn.continue": "ادامه ←",
+  "btn.back": "→ بازگشت",
+  "btn.submit": "ارسال درخواست",
+  "btn.submitting": "در حال ارسال…",
+
+  "ok.title": "درخواست دریافت شد!",
+  "ok.formNumberLabel": "شماره درخواست شما",
+  "ok.body":
+    "لطفاً تلفن خود را در دسترس نگه دارید و حتماً پاسخ دهید تا بتوانیم درخواست شما را تکمیل کنیم.",
+  "ok.body2":
+    "شما با موفقیت درخواست اولیه را تکمیل کردید! آفرین. اطلاعات شما با اطمینان دریافت شد.",
+  "ok.body3":
+    "مرحله آخر یک گفت‌وگوی کوتاه و الزامی با یک مأمور ثبت‌نام از دفتر LOOM است تا همه چیز بررسی و ثبت‌نام شما نهایی شود. یک مأمور ثبت‌نام طی ۴۸ ساعت آینده با شما تماس می‌گیرد.",
+  "ok.back": "بازگشت به خانه",
+  "share.title":
+    "از درخواست شما متشکریم! به یک دوست یا همسایه کمک کنید تأیید شود. Loom Rockland را با آن‌ها به اشتراک بگذارید!",
+  "share.subtitle": "",
+  "share.whatsapp": "اشتراک در واتساپ",
+  "share.native": "اشتراک‌گذاری",
+  "share.copyLink": "کپی لینک",
+  "share.copied": "کپی شد!",
+  "share.msg":
+    "یک سرویس عالی و رایگان تحویل غذای تازه برای ساکنان نیویورک (واجد شرایط مدیکید) پیدا کردم. توسط ایالت حمایت می‌شود و روی Food Stamps تأثیری ندارد. ثبت‌نام کردم و عالی به نظر می‌رسد. اکیداً توصیه می‌کنم بررسی کنید که آیا شما هم واجد شرایط هستید: https://loomrockland.org/",
+  "share.tplEmailTitle": "قالب ایمیل",
+  "share.tplEmailSubjectLabel": "موضوع",
+  "share.tplEmailSubject":
+    "توصیه‌شده: سرویس رایگان تحویل غذای تازه برای ساکنان نیویورک",
+  "share.tplEmailBody":
+    "سلام دوست عزیز،\n\nمی‌خواستم یک ابتکار عالی از NYS Social Care Network را با شما به اشتراک بگذارم که غذای تازه رایگان را درِ خانه شما تحویل می‌دهد. برای ساکنان نیویورک که واجد شرایط مدیکید هستند در دسترس است و روی Food Stamps (SNAP) تأثیری ندارد.\n\nثبت‌نام کردم و فرآیند سریع بود. واجد شرایط بودن خود را بررسی کنید و اینجا ثبت‌نام کنید: https://loomrockland.org/\n\nبا احترام،",
+  "share.tplSmsTitle": "قالب پیامک / واتساپ",
+  "share.tplSmsBody":
+    "یک سرویس عالی و رایگان تحویل غذای تازه برای ساکنان نیویورک (واجد شرایط مدیکید) پیدا کردم. توسط ایالت حمایت می‌شود و روی Food Stamps تأثیری ندارد. ثبت‌نام کردم و عالی به نظر می‌رسد. اکیداً توصیه می‌کنم بررسی کنید که آیا شما هم واجد شرایط هستید: https://loomrockland.org/",
+  "share.copyEmail": "کپی ایمیل",
+  "share.copyMsg": "کپی پیام",
+
+  "err.eligibility": "لطفاً حداقل یک دسته واجد شرایط بودن را انتخاب کنید.",
+  "err.generic": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+  "err.failed": "ارسال ناموفق بود.",
+  "err.tooBig": "«{name}» بزرگ‌تر از ۱۰ مگابایت است.",
+
+  "elig.pregnant": "باردار",
+  "elig.miscarriage": "سقط جنین داشته",
+  "elig.postpartum": "پس از زایمان (۱۲ ماه اخیر)",
+  "elig.substance_use": "اختلال مصرف مواد",
+  "elig.hiv_aids": "اچ‌آی‌وی / ایدز",
+  "elig.diabetes": "دیابت",
+  "elig.hypertension": "فشار خون بالا",
+  "elig.smi": "بیماری روانی شدید (SMI)",
+  "elig.chronic": "بیماری مزمن",
+  "elig.other": "سایر",
+};
+
+const DICTS: Record<Locale, Dict> = { en, es, ht, fa };
 
 const I18nContext = createContext<{
   locale: Locale;
@@ -550,21 +829,31 @@ const I18nContext = createContext<{
 }>({ locale: "en", setLocale: () => {}, t: (k) => k });
 
 export function I18nProvider({ children }: { children: ReactNode }) {
+  // Always default to English on a fresh visit. We deliberately do NOT restore
+  // from localStorage or auto-detect the browser language, so every new visitor
+  // (and every new browsing session) starts in English. The choice is kept in
+  // sessionStorage only, so it carries across pages within the same visit but is
+  // never remembered for the next visitor.
   const [locale, setLocaleState] = useState<Locale>("en");
 
   useEffect(() => {
-    const saved = localStorage.getItem("loom_locale") as Locale | null;
-    if (saved && DICTS[saved]) setLocaleState(saved);
-    else {
-      const nav = navigator.language?.slice(0, 2);
-      if (nav === "es" || nav === "ht") setLocaleState(nav);
+    const saved = sessionStorage.getItem("loom_locale") as Locale | null;
+    if (saved && DICTS[saved]) {
+      setLocaleState(saved);
+      document.documentElement.lang = saved;
+      document.documentElement.dir = localeDir(saved);
     }
   }, []);
 
   function setLocale(l: Locale) {
     setLocaleState(l);
-    localStorage.setItem("loom_locale", l);
+    try {
+      sessionStorage.setItem("loom_locale", l);
+    } catch {
+      /* ignore */
+    }
     document.documentElement.lang = l;
+    document.documentElement.dir = localeDir(l);
   }
 
   function t(key: string, vars?: Record<string, string | number>) {

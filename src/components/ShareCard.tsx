@@ -30,7 +30,7 @@ const MESSENGER =
 
 export function ShareCard() {
   const { t } = useI18n();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
 
   const msg = t("share.msg");
   const encMsg = encodeURIComponent(msg);
@@ -41,6 +41,21 @@ export function ShareCard() {
   const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encUrl}`;
   const messenger = `fb-messenger://share/?link=${encUrl}`;
 
+  const emailSubject = t("share.tplEmailSubject");
+  const emailBody = t("share.tplEmailBody");
+  const smsBody = t("share.tplSmsBody");
+  const emailFull = `Subject: ${emailSubject}\n\n${emailBody}`;
+
+  async function copy(text: string, key: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(key);
+      setTimeout(() => setCopied((c) => (c === key ? null : c)), 1800);
+    } catch {
+      /* ignore */
+    }
+  }
+
   async function nativeShare() {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
@@ -49,24 +64,51 @@ export function ShareCard() {
         /* user cancelled */
       }
     } else {
-      copyLink();
-    }
-  }
-
-  async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(SITE);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch {
-      /* ignore */
+      copy(SITE, "link");
     }
   }
 
   return (
     <div className="share-card">
       <h3 className="share-title">{t("share.title")}</h3>
-      <p className="share-sub">{t("share.subtitle")}</p>
+
+      {/* Copy-and-paste message templates */}
+      <div className="share-templates">
+        <div className="share-tpl">
+          <div className="share-tpl-head">
+            <span className="share-tpl-title">{t("share.tplEmailTitle")}</span>
+            <button
+              type="button"
+              className="share-tpl-copy"
+              onClick={() => copy(emailFull, "email")}
+            >
+              {copied === "email" ? t("share.copied") : t("share.copyEmail")}
+            </button>
+          </div>
+          <div className="share-tpl-body">
+            <span className="share-tpl-subject">
+              <strong>{t("share.tplEmailSubjectLabel")}:</strong> {emailSubject}
+            </span>
+            <span className="share-tpl-text">{emailBody}</span>
+          </div>
+        </div>
+
+        <div className="share-tpl">
+          <div className="share-tpl-head">
+            <span className="share-tpl-title">{t("share.tplSmsTitle")}</span>
+            <button
+              type="button"
+              className="share-tpl-copy"
+              onClick={() => copy(smsBody, "sms")}
+            >
+              {copied === "sms" ? t("share.copied") : t("share.copyMsg")}
+            </button>
+          </div>
+          <div className="share-tpl-body">
+            <span className="share-tpl-text">{smsBody}</span>
+          </div>
+        </div>
+      </div>
 
       <a className="btn-whatsapp" href={whatsapp} target="_blank" rel="noreferrer">
         <Icon path={WHATSAPP} size={22} />
@@ -106,12 +148,12 @@ export function ShareCard() {
           </svg>
           {t("share.native")}
         </button>
-        <button type="button" className="share-util" onClick={copyLink}>
+        <button type="button" className="share-util" onClick={() => copy(SITE, "link")}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
           </svg>
-          {copied ? t("share.copied") : t("share.copyLink")}
+          {copied === "link" ? t("share.copied") : t("share.copyLink")}
         </button>
       </div>
     </div>
