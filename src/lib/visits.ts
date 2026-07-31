@@ -7,7 +7,7 @@ const VISITS_DOC = ["counters", "visits"] as const;
 const VISITS_PER_INCREMENT = 7;
 // The badge starts from this number and ticks up by 1 every VISITS_PER_INCREMENT
 // visits from there (raw is reset to 0 so growth is measured from launch).
-const BASE_DISPLAY = 21477;
+const BASE_DISPLAY = 21577;
 
 function displayValue(raw: number): number {
   return BASE_DISPLAY + Math.floor(raw / VISITS_PER_INCREMENT);

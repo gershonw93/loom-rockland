@@ -137,24 +137,16 @@ export default function Home() {
                 <a href="/#qualify">{t("footer.qualify")}</a>
               </li>
               <li>
-                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
-                  {t("footer.about")}
-                </a>
+                <Link href="/about">{t("footer.about")}</Link>
               </li>
               <li>
-                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
-                  {t("footer.services")}
-                </a>
+                <Link href="/services">{t("footer.services")}</Link>
               </li>
               <li>
-                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
-                  {t("footer.faq")}
-                </a>
+                <Link href="/faq">{t("footer.faq")}</Link>
               </li>
               <li>
-                <a href="https://www.loomsupport.org" target="_blank" rel="noreferrer">
-                  {t("footer.privacy")}
-                </a>
+                <Link href="/privacy">{t("footer.privacy")}</Link>
               </li>
               <li>
                 <a href="mailto:support@loomrockland.org">{t("footer.contactUs")}</a>

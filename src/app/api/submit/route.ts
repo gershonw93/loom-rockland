@@ -137,24 +137,9 @@ export async function POST(req: Request) {
       { status: 400 }
     );
   }
-  if (eligibility.length === 0) {
-    return NextResponse.json(
-      { error: "Select at least one eligibility category." },
-      { status: 400 }
-    );
-  }
-  if (medicaidIds.length === 0) {
-    return NextResponse.json(
-      { error: "The main applicant's Medicaid CIN is required." },
-      { status: 400 }
-    );
-  }
-  if (members.some((m) => !m.cin)) {
-    return NextResponse.json(
-      { error: "Each family member's Medicaid CIN is required." },
-      { status: 400 }
-    );
-  }
+  // Health/eligibility info and Medicaid CIN are intentionally OPTIONAL — the
+  // form lets applicants skip these and an enrollment officer collects them by
+  // phone, so we do not block submission on them here.
   const familyMembers = Number.parseInt(familyMembersRaw, 10);
   if (!Number.isFinite(familyMembers) || familyMembers < 1) {
     return NextResponse.json(

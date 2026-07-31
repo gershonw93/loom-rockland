@@ -126,7 +126,9 @@ const en: Dict = {
 
   "s3.eyebrow": "Eligibility",
   "s3.title": "Select the health condition that applies to you",
-  "s3.hint": "Select all that apply.",
+  "s3.hint": "Select all that apply. (Optional)",
+  "s3.helper":
+    "Help us approve your application faster! Declaring health conditions and attaching documents allows us to determine eligibility immediately.",
   "cond.detailsTitle": "Condition details",
   "cond.clientName": "Client name",
   "cond.clientNameHint": "Name of the person this condition applies to",
@@ -141,8 +143,14 @@ const en: Dict = {
   "s4.hint":
     "Upload a photo of your insurance card to get approved faster — or enter your Medicaid ID (CIN) number below.",
   "s4.fasterBadge": "⚡ Approved faster",
-  "s4.uploadLabel": "Upload your insurance card (recommended)",
+  "s4.uploadLabel": "Upload your insurance card (Recommended for Faster Approval)",
   "s4.orLabel": "Or enter your Medicaid ID (CIN)",
+  "s4.pathTitle": "How would you like to proceed?",
+  "s4.pathFast": "Fast Approval Path (Provide Medicaid info now)",
+  "s4.pathStandard": "Standard Path (Provide info to the officer later)",
+  "s4.standardMsg":
+    "No problem! Our enrollment officer will collect this information during your call.",
+  "f.cinOptional": "Medicaid CIN (Optional)",
   "f.photos": "Insurance Card Photos",
   "f.photosHint":
     "Please upload photos of insurance cards for yourself and all family members listed in this application.",
@@ -317,7 +325,9 @@ const es: Dict = {
 
   "s3.eyebrow": "Elegibilidad",
   "s3.title": "Selecciona la condición de salud que aplica a ti",
-  "s3.hint": "Selecciona todas las que apliquen.",
+  "s3.hint": "Selecciona todas las que apliquen. (Opcional)",
+  "s3.helper":
+    "¡Ayúdanos a aprobar tu solicitud más rápido! Declarar condiciones de salud y adjuntar documentos nos permite determinar tu elegibilidad de inmediato.",
   "cond.detailsTitle": "Detalles de la condición",
   "cond.clientName": "Nombre del cliente",
   "cond.clientNameHint": "Nombre de la persona a la que aplica esta condición",
@@ -332,8 +342,14 @@ const es: Dict = {
   "s4.hint":
     "Sube una foto de tu tarjeta de seguro para que te aprueben más rápido — o ingresa tu número de identificación de Medicaid (CIN) abajo.",
   "s4.fasterBadge": "⚡ Aprobación más rápida",
-  "s4.uploadLabel": "Sube tu tarjeta de seguro (recomendado)",
+  "s4.uploadLabel": "Sube tu tarjeta de seguro (Recomendado para aprobación más rápida)",
   "s4.orLabel": "O ingresa tu identificación de Medicaid (CIN)",
+  "s4.pathTitle": "¿Cómo te gustaría continuar?",
+  "s4.pathFast": "Vía de aprobación rápida (Proporcionar info de Medicaid ahora)",
+  "s4.pathStandard": "Vía estándar (Proporcionar la info al oficial después)",
+  "s4.standardMsg":
+    "¡No hay problema! Nuestro oficial de inscripción recopilará esta información durante tu llamada.",
+  "f.cinOptional": "CIN de Medicaid (Opcional)",
   "f.photos": "Fotos de la tarjeta de seguro",
   "f.photosHint":
     "Por favor sube fotos de las tarjetas de seguro tuyas y de todos los familiares incluidos en esta solicitud.",
@@ -518,7 +534,9 @@ const ht: Dict = {
 
   "s3.eyebrow": "Kalifikasyon",
   "s3.title": "Chwazi kondisyon sante ki aplike a ou",
-  "s3.hint": "Chwazi tout sa ki aplikab.",
+  "s3.hint": "Chwazi tout sa ki aplikab. (Opsyonèl)",
+  "s3.helper":
+    "Ede nou apwouve aplikasyon w pi vit! Deklare kondisyon sante epi tache dokiman pèmèt nou detèmine kalifikasyon w touswit.",
   "cond.detailsTitle": "Detay kondisyon an",
   "cond.clientName": "Non kliyan an",
   "cond.clientNameHint": "Non moun kondisyon sa a aplike a",
@@ -533,8 +551,14 @@ const ht: Dict = {
   "s4.hint":
     "Telechaje yon foto kat asirans ou pou yo apwouve w pi vit — oswa antre nimewo ID Medicaid (CIN) ou anba a.",
   "s4.fasterBadge": "⚡ Apwouve pi vit",
-  "s4.uploadLabel": "Telechaje kat asirans ou (rekòmande)",
+  "s4.uploadLabel": "Telechaje kat asirans ou (Rekòmande pou apwobasyon pi vit)",
   "s4.orLabel": "Oswa antre ID Medicaid (CIN) ou",
+  "s4.pathTitle": "Kijan ou vle kontinye?",
+  "s4.pathFast": "Chemen apwobasyon rapid (Bay enfo Medicaid kounye a)",
+  "s4.pathStandard": "Chemen estanda (Bay enfo bay ofisye a pita)",
+  "s4.standardMsg":
+    "Pa gen pwoblèm! Ofisye enskripsyon nou an ap kolekte enfòmasyon sa a pandan apèl ou a.",
+  "f.cinOptional": "CIN Medicaid (Opsyonèl)",
   "f.photos": "Foto kat asirans",
   "f.photosHint":
     "Tanpri telechaje foto kat asirans pou ou menm ak tout manm fanmi ki nan aplikasyon sa a.",
@@ -718,7 +742,9 @@ const fa: Dict = {
 
   "s3.eyebrow": "واجد شرایط بودن",
   "s3.title": "وضعیت سلامتی که به شما مربوط می‌شود را انتخاب کنید",
-  "s3.hint": "همه موارد مرتبط را انتخاب کنید.",
+  "s3.hint": "همه موارد مرتبط را انتخاب کنید. (اختیاری)",
+  "s3.helper":
+    "به ما کمک کنید درخواستتان را سریع‌تر تأیید کنیم! اعلام وضعیت سلامتی و پیوست مدارک به ما اجازه می‌دهد واجد شرایط بودن شما را فوراً تعیین کنیم.",
   "cond.detailsTitle": "جزئیات وضعیت",
   "cond.clientName": "نام مراجع",
   "cond.clientNameHint": "نام شخصی که این وضعیت به او مربوط می‌شود",
@@ -733,8 +759,14 @@ const fa: Dict = {
   "s4.hint":
     "برای تأیید سریع‌تر، عکسی از کارت بیمه خود بارگذاری کنید — یا شماره شناسه مدیکید (CIN) خود را در زیر وارد کنید.",
   "s4.fasterBadge": "⚡ تأیید سریع‌تر",
-  "s4.uploadLabel": "کارت بیمه خود را بارگذاری کنید (توصیه می‌شود)",
+  "s4.uploadLabel": "کارت بیمه خود را بارگذاری کنید (توصیه‌شده برای تأیید سریع‌تر)",
   "s4.orLabel": "یا شناسه مدیکید (CIN) خود را وارد کنید",
+  "s4.pathTitle": "چگونه می‌خواهید ادامه دهید؟",
+  "s4.pathFast": "مسیر تأیید سریع (ارائه اطلاعات مدیکید همین حالا)",
+  "s4.pathStandard": "مسیر استاندارد (ارائه اطلاعات به مأمور در آینده)",
+  "s4.standardMsg":
+    "مشکلی نیست! مأمور ثبت‌نام ما این اطلاعات را طی تماس با شما جمع‌آوری می‌کند.",
+  "f.cinOptional": "شناسه مدیکید (اختیاری)",
   "f.photos": "عکس‌های کارت بیمه",
   "f.photosHint":
     "لطفاً عکس کارت بیمه خود و همه اعضای خانواده ذکرشده در این درخواست را بارگذاری کنید.",

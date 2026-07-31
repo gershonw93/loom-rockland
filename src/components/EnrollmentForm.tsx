@@ -22,7 +22,7 @@ const emptyMember = (): Member => ({
 
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 const STEP_KEYS = ["step.details", "step.eligibility", "step.insurance"];
-const ELIGIBILITY_STEP = 1;
+type InsurancePath = "fast" | "standard";
 
 export function EnrollmentForm() {
   const { t } = useI18n();
@@ -36,6 +36,7 @@ export function EnrollmentForm() {
   const [familyCount, setFamilyCount] = useState(1);
   const [members, setMembers] = useState<Member[]>([]);
   const [cin, setCin] = useState("");
+  const [insurancePath, setInsurancePath] = useState<InsurancePath>("fast");
   const [photos, setPhotos] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -130,10 +131,8 @@ export function EnrollmentForm() {
         }
       }
     }
-    if (idx === ELIGIBILITY_STEP && eligibility.length === 0) {
-      setError(t("err.eligibility"));
-      return false;
-    }
+    // Health/eligibility information is optional — users may continue without
+    // selecting any condition, so there is no minimum-selection requirement.
     return true;
   }
 
@@ -365,6 +364,7 @@ export function EnrollmentForm() {
             <p className="step-eyebrow">{t("s3.eyebrow")}</p>
             <h2>{t("s3.title")}</h2>
             <p className="step-hint">{t("s3.hint")}</p>
+            <p className="tip-note">{t("s3.helper")}</p>
 
             <div className="checks">
               {ELIGIBILITY_CATEGORIES.map((c) => {
@@ -399,13 +399,9 @@ export function EnrollmentForm() {
                     <div className="condition-detail" key={c.value}>
                       <div className="cd-head">{eligLabel(t, c.value, c.label)}</div>
                       <div className="field">
-                        <label>
-                          {t("cond.clientName")}
-                          <span className="req">*</span>
-                        </label>
+                        <label>{t("cond.clientName")}</label>
                         <input
                           type="text"
-                          required
                           value={d.clientName}
                           onChange={(e) =>
                             updateDetail(c.value, "clientName", e.target.value)
@@ -415,13 +411,9 @@ export function EnrollmentForm() {
 
                       {c.value === "miscarriage" && (
                         <div className="field">
-                          <label>
-                            {t("cond.miscarriageDate")}
-                            <span className="req">*</span>
-                          </label>
+                          <label>{t("cond.miscarriageDate")}</label>
                           <input
                             type="date"
-                            required
                             value={d.date}
                             onChange={(e) =>
                               updateDetail(c.value, "date", e.target.value)
@@ -433,13 +425,9 @@ export function EnrollmentForm() {
                       {c.value === "postpartum" && (
                         <div className="row two">
                           <div className="field">
-                            <label>
-                              {t("cond.infantName")}
-                              <span className="req">*</span>
-                            </label>
+                            <label>{t("cond.infantName")}</label>
                             <input
                               type="text"
-                              required
                               value={d.infantName}
                               onChange={(e) =>
                                 updateDetail(c.value, "infantName", e.target.value)
@@ -447,13 +435,9 @@ export function EnrollmentForm() {
                             />
                           </div>
                           <div className="field">
-                            <label>
-                              {t("cond.infantDob")}
-                              <span className="req">*</span>
-                            </label>
+                            <label>{t("cond.infantDob")}</label>
                             <input
                               type="date"
-                              required
                               value={d.infantDob}
                               onChange={(e) =>
                                 updateDetail(c.value, "infantDob", e.target.value)
@@ -549,160 +533,181 @@ export function EnrollmentForm() {
           >
             <p className="step-eyebrow">{t("s4.eyebrow")}</p>
             <h2>{t("s4.title")}</h2>
-            <p className="step-hint">{t("s4.hint")}</p>
 
-            <InsuranceExamples />
-
-            {/* Photo upload — recommended / faster approval */}
-            <div className="field">
-              <label>
-                {t("s4.uploadLabel")}
-                <span className="faster-badge">{t("s4.fasterBadge")}</span>
-              </label>
-              <p className="hint">{t("f.photosHint")}</p>
-              <div
-                className="dropzone"
-                onClick={() => fileInput.current?.click()}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  onFiles(e.dataTransfer.files);
-                }}
-              >
-                <div className="big">⬆</div>
-                {t("f.dropzone")}
+            {/* Process-selection toggle */}
+            <div className="path-toggle">
+              <p className="path-title">{t("s4.pathTitle")}</p>
+              <div className="path-options">
+                <button
+                  type="button"
+                  className={`path-opt${insurancePath === "fast" ? " active" : ""}`}
+                  aria-pressed={insurancePath === "fast"}
+                  onClick={() => setInsurancePath("fast")}
+                >
+                  <span className="path-radio" />
+                  <span>{t("s4.pathFast")}</span>
+                </button>
+                <button
+                  type="button"
+                  className={`path-opt${insurancePath === "standard" ? " active" : ""}`}
+                  aria-pressed={insurancePath === "standard"}
+                  onClick={() => setInsurancePath("standard")}
+                >
+                  <span className="path-radio" />
+                  <span>{t("s4.pathStandard")}</span>
+                </button>
               </div>
-              <input
-                ref={fileInput}
-                type="file"
-                accept="image/*,application/pdf"
-                multiple
-                hidden
-                onChange={(e) => {
-                  onFiles(e.target.files);
-                  e.target.value = "";
-                }}
-              />
-              {photos.length > 0 && (
-                <ul className="filelist">
-                  {photos.map((f, i) => (
-                    <li key={`${f.name}-${i}`}>
-                      <span>
-                        {f.name} ({(f.size / 1024).toFixed(0)} KB)
-                      </span>
-                      <button
-                        type="button"
-                        aria-label={`Remove ${f.name}`}
-                        onClick={() =>
-                          setPhotos((prev) => prev.filter((_, idx) => idx !== i))
-                        }
-                      >
-                        ×
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
 
-            <div className="or-divider">
-              <span>{t("s4.orLabel")}</span>
-            </div>
+            {insurancePath === "standard" ? (
+              <div className="standard-msg">{t("s4.standardMsg")}</div>
+            ) : (
+              <>
+                <p className="step-hint">{t("s4.hint")}</p>
 
-            <div className="field">
-              <label>
-                {t("f.cinApplicant")}
-                <span className="req">*</span>
-              </label>
-              <input
-                type="text"
-                value={cin}
-                required
-                placeholder={t("f.cinPlain")}
-                onChange={(e) => setCin(e.target.value)}
-              />
-            </div>
+                <InsuranceExamples />
 
-            {/* Auto-generated household member details */}
-            {members.length > 0 && (
-              <div className="members-section">
-                <h3 className="members-title">{t("members.title")}</h3>
-                <p className="step-hint">
-                  {t("members.hint", { n: familyCount })}
-                </p>
-                {members.map((m, i) => (
-                  <div className="member-card" key={i}>
-                    <div className="member-head">
-                      {t("members.label", { n: i + 2 })}
-                    </div>
-                    <div className="field">
-                      <label>
-                        {t("f.fullName")}
-                        <span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={m.fullName}
-                        onChange={(e) =>
-                          updateMember(i, "fullName", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="row two">
-                      <div className="field">
-                        <label>
-                          {t("f.relationship")}
-                          <span className="req">*</span>
-                        </label>
-                        <select
-                          required
-                          value={m.relationship}
-                          onChange={(e) =>
-                            updateMember(i, "relationship", e.target.value)
-                          }
-                        >
-                          <option value="">{t("rel.select")}</option>
-                          {RELATIONSHIPS.map((r) => (
-                            <option key={r.value} value={r.value}>
-                              {t(r.key)}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="field">
-                        <label>
-                          {t("f.dob")}
-                          <span className="req">*</span>
-                        </label>
-                        <input
-                          type="date"
-                          required
-                          value={m.dob}
-                          onChange={(e) =>
-                            updateMember(i, "dob", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div className="field">
-                      <label>
-                        {t("f.memberCin")}
-                        <span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={m.cin}
-                        required
-                        placeholder={t("f.cinPlain")}
-                        onChange={(e) =>
-                          updateMember(i, "cin", e.target.value)
-                        }
-                      />
-                    </div>
+                {/* Photo upload — recommended / faster approval */}
+                <div className="field">
+                  <label>{t("s4.uploadLabel")}</label>
+                  <p className="hint">{t("f.photosHint")}</p>
+                  <div
+                    className="dropzone"
+                    onClick={() => fileInput.current?.click()}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      onFiles(e.dataTransfer.files);
+                    }}
+                  >
+                    <div className="big">⬆</div>
+                    {t("f.dropzone")}
                   </div>
-                ))}
-              </div>
+                  <input
+                    ref={fileInput}
+                    type="file"
+                    accept="image/*,application/pdf"
+                    multiple
+                    hidden
+                    onChange={(e) => {
+                      onFiles(e.target.files);
+                      e.target.value = "";
+                    }}
+                  />
+                  {photos.length > 0 && (
+                    <ul className="filelist">
+                      {photos.map((f, i) => (
+                        <li key={`${f.name}-${i}`}>
+                          <span>
+                            {f.name} ({(f.size / 1024).toFixed(0)} KB)
+                          </span>
+                          <button
+                            type="button"
+                            aria-label={`Remove ${f.name}`}
+                            onClick={() =>
+                              setPhotos((prev) => prev.filter((_, idx) => idx !== i))
+                            }
+                          >
+                            ×
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="or-divider">
+                  <span>{t("s4.orLabel")}</span>
+                </div>
+
+                <div className="field">
+                  <label>{t("f.cinApplicant")}</label>
+                  <input
+                    type="text"
+                    value={cin}
+                    placeholder={t("f.cinOptional")}
+                    onChange={(e) => setCin(e.target.value)}
+                  />
+                </div>
+
+                {/* Auto-generated household member details */}
+                {members.length > 0 && (
+                  <div className="members-section">
+                    <h3 className="members-title">{t("members.title")}</h3>
+                    <p className="step-hint">
+                      {t("members.hint", { n: familyCount })}
+                    </p>
+                    {members.map((m, i) => (
+                      <div className="member-card" key={i}>
+                        <div className="member-head">
+                          {t("members.label", { n: i + 2 })}
+                        </div>
+                        <div className="field">
+                          <label>
+                            {t("f.fullName")}
+                            <span className="req">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={m.fullName}
+                            onChange={(e) =>
+                              updateMember(i, "fullName", e.target.value)
+                            }
+                          />
+                        </div>
+                        <div className="row two">
+                          <div className="field">
+                            <label>
+                              {t("f.relationship")}
+                              <span className="req">*</span>
+                            </label>
+                            <select
+                              required
+                              value={m.relationship}
+                              onChange={(e) =>
+                                updateMember(i, "relationship", e.target.value)
+                              }
+                            >
+                              <option value="">{t("rel.select")}</option>
+                              {RELATIONSHIPS.map((r) => (
+                                <option key={r.value} value={r.value}>
+                                  {t(r.key)}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="field">
+                            <label>
+                              {t("f.dob")}
+                              <span className="req">*</span>
+                            </label>
+                            <input
+                              type="date"
+                              required
+                              value={m.dob}
+                              onChange={(e) =>
+                                updateMember(i, "dob", e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="field">
+                          <label>{t("f.memberCin")}</label>
+                          <input
+                            type="text"
+                            value={m.cin}
+                            placeholder={t("f.cinOptional")}
+                            onChange={(e) =>
+                              updateMember(i, "cin", e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
 

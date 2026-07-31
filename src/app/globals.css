@@ -1916,3 +1916,167 @@ tbody tr:hover {
   font-weight: 600;
   color: var(--deep);
 }
+
+/* ── Static info pages (About / Services / FAQ / Privacy) ───────── */
+.doc-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) 20px 40px;
+}
+.doc-title {
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.15;
+  margin: 6px 0 14px;
+  color: var(--deep);
+}
+.doc-intro {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+.doc-page h2 {
+  font-size: 20px;
+  color: var(--deep);
+  margin: 30px 0 10px;
+}
+.doc-page p {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #3f3a4a;
+  margin: 0 0 12px;
+}
+.doc-page ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+.doc-page li {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: #3f3a4a;
+  margin-bottom: 6px;
+}
+.doc-page a {
+  color: var(--purple);
+  font-weight: 600;
+}
+.faq-item {
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
+}
+.faq-item:first-of-type {
+  border-top: none;
+}
+.doc-back {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+[dir="rtl"] .doc-page ul {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+/* eligibility helper tip */
+.tip-note {
+  margin: -4px 0 16px;
+  font-size: 13.5px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--purple);
+  background: var(--lav);
+  border-left: 3px solid var(--purple);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+[dir="rtl"] .tip-note {
+  border-left: none;
+  border-right: 3px solid var(--purple);
+}
+
+/* insurance process-selection toggle */
+.path-toggle {
+  margin-bottom: 20px;
+}
+.path-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--deep);
+  margin: 0 0 10px;
+}
+.path-options {
+  display: grid;
+  gap: 10px;
+}
+.path-opt {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  text-align: start;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--deep);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.path-opt:hover {
+  border-color: var(--purple);
+}
+.path-opt.active {
+  border-color: var(--purple);
+  background: var(--lav);
+}
+.path-radio {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  position: relative;
+  transition: border-color 0.15s;
+}
+.path-opt.active .path-radio {
+  border-color: var(--purple);
+}
+.path-opt.active .path-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--purple);
+}
+
+/* standard-path confirmation message */
+.standard-msg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ecfdf3;
+  border: 1px solid #abefc6;
+  color: #067647;
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.standard-msg::before {
+  content: "✓";
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #17b26a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+}
