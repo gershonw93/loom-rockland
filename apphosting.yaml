@@ -35,3 +35,30 @@ env:
     secret: admin-password
     availability:
       - RUNTIME
+
+  # ── Email notifications (SMTP) ────────────────────────────────
+  # New-application emails go to support@loomrockland.org with the submission
+  # CSV attached. Uncomment and fill in for your mail provider, then create the
+  # password secret:
+  #   firebase apphosting:secrets:set smtp-pass
+  #   firebase apphosting:secrets:grantaccess smtp-pass
+  # If these are left unset, submissions still work — the email is just skipped.
+  #
+  # - variable: SMTP_HOST      # e.g. smtp.gmail.com / smtp-relay.gmail.com / smtp.resend.com
+  #   value: smtp.gmail.com
+  #   availability: [RUNTIME]
+  # - variable: SMTP_PORT
+  #   value: "587"
+  #   availability: [RUNTIME]
+  # - variable: SMTP_USER      # SMTP username (often the sending address)
+  #   value: support@loomrockland.org
+  #   availability: [RUNTIME]
+  # - variable: MAIL_FROM      # From header
+  #   value: LOOM Rockland <support@loomrockland.org>
+  #   availability: [RUNTIME]
+  # - variable: MAIL_TO        # Recipient (defaults to support@loomrockland.org)
+  #   value: support@loomrockland.org
+  #   availability: [RUNTIME]
+  # - variable: SMTP_PASS      # SMTP password / app password / API key (secret)
+  #   secret: smtp-pass
+  #   availability: [RUNTIME]

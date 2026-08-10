@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 import { FieldValue } from "firebase-admin/firestore";
 import { db, bucket, SUBMISSIONS_COLLECTION } from "@/lib/firebaseAdmin";
-import { ELIGIBILITY_CATEGORIES } from "@/lib/eligibility";
+import { ELIGIBILITY_CATEGORIES, eligibilityLabel } from "@/lib/eligibility";
 import { getAgent } from "@/lib/agents";
 import { nextFormNumber } from "@/lib/counter";
 import { DEFAULT_STATUS } from "@/lib/status";
-import type { InsurancePhoto } from "@/lib/types";
+import { buildCsv } from "@/lib/submissions";
+import { sendMail, MAIL_TO } from "@/lib/mail";
+import type { InsurancePhoto, SubmissionRecord } from "@/lib/types";
 
 export const runtime = "nodejs";
 
@@ -278,6 +280,101 @@ export async function POST(req: Request) {
       { error: "Could not save your application. Please try again." },
       { status: 500 }
     );
+  }
+
+  // ── Notify the office by email (non-blocking) ─────────────────
+  // The applicant's submission already succeeded; a mail problem must never
+  // turn into a failed submission, so this is fully guarded.
+  try {
+    const record: SubmissionRecord = {
+      id: docRef.id,
+      formNumber,
+      referredBy,
+      firstName,
+      lastName,
+      dateOfBirth,
+      address: { line1: addressLine1, line2: addressLine2, city, state, zip },
+      phone,
+      eligibility,
+      conditionDetails,
+      otherDoc,
+      otherDocUrl: "",
+      familyMembers,
+      members,
+      medicaidIds,
+      photos,
+      photoUrls: [],
+      agentCode: resolvedAgentCode,
+      agentName,
+      status: DEFAULT_STATUS,
+      archived: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    const csv = await buildCsv([record]);
+    const fullName = `${firstName} ${lastName}`.trim();
+    const conditions = eligibility.map(eligibilityLabel).join(", ") || "—";
+    const cityLine = [city, state, zip].filter(Boolean).join(", ");
+
+    const text = [
+      `A new application has been submitted on loomrockland.org.`,
+      ``,
+      `Application #:  ${formNumber}`,
+      `Name:          ${fullName}`,
+      `Phone:         ${phone}`,
+      `Date of birth: ${dateOfBirth}`,
+      `Address:       ${[addressLine1, addressLine2].filter(Boolean).join(", ")}${cityLine ? " — " + cityLine : ""}`,
+      `Household:     ${familyMembers}`,
+      `Eligibility:   ${conditions}`,
+      `Medicaid CIN:  ${medicaidIds.join(", ") || "—"}`,
+      `Insurance photos: ${photos.length}`,
+      `Referring agent:  ${agentName || resolvedAgentCode || "—"}`,
+      ``,
+      `The full submission is attached as a CSV (application-${formNumber}.csv).`,
+    ].join("\n");
+
+    const esc = (s: string) =>
+      s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const html = `
+      <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#1f2937">
+        <h2 style="color:#4c1d95;margin:0 0 12px">New application — #${formNumber}</h2>
+        <p style="margin:0 0 14px">A new application has been submitted on loomrockland.org.</p>
+        <table style="border-collapse:collapse;font-size:14px">
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Application #</td><td><strong>${formNumber}</strong></td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Name</td><td>${esc(fullName)}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Phone</td><td>${esc(phone)}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Date of birth</td><td>${esc(dateOfBirth)}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Address</td><td>${esc([addressLine1, addressLine2].filter(Boolean).join(", "))}${cityLine ? " — " + esc(cityLine) : ""}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Household</td><td>${familyMembers}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Eligibility</td><td>${esc(conditions)}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Medicaid CIN</td><td>${esc(medicaidIds.join(", ") || "—")}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Insurance photos</td><td>${photos.length}</td></tr>
+          <tr><td style="padding:3px 12px 3px 0;color:#6b7280">Referring agent</td><td>${esc(agentName || resolvedAgentCode || "—")}</td></tr>
+        </table>
+        <p style="margin:16px 0 0;color:#6b7280;font-size:13px">The full submission is attached as a CSV (application-${formNumber}.csv), ready to open in Excel.</p>
+      </div>`;
+
+    const result = await sendMail({
+      subject: `New Application Submitted - #${formNumber}`,
+      text,
+      html,
+      attachments: [
+        {
+          filename: `application-${formNumber}.csv`,
+          content: csv,
+          contentType: "text/csv; charset=utf-8",
+        },
+      ],
+    });
+    if (result.skipped) {
+      console.warn(`[submit] email skipped (SMTP not configured) for #${formNumber}`);
+    } else if (!result.sent) {
+      console.error(`[submit] email failed for #${formNumber}: ${result.error}`);
+    } else {
+      console.log(`[submit] notification sent to ${MAIL_TO} for #${formNumber}`);
+    }
+  } catch (err) {
+    console.error("notification email failed", err);
   }
 
   return NextResponse.json({ ok: true, id: docRef.id, formNumber });
