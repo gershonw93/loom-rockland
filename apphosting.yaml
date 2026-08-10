@@ -36,29 +36,37 @@ env:
     availability:
       - RUNTIME
 
-  # ── Email notifications (SMTP) ────────────────────────────────
+  # ── Email notifications (SMTP · Google Workspace / Gmail) ─────
   # New-application emails go to support@loomrockland.org with the submission
-  # CSV attached. Uncomment and fill in for your mail provider, then create the
-  # password secret:
-  #   firebase apphosting:secrets:set smtp-pass
+  # CSV attached. These non-secret settings are safe to keep here; email stays
+  # OFF (skipped) until the smtp-pass secret below is created and enabled.
+  - variable: SMTP_HOST
+    value: smtp.gmail.com
+    availability:
+      - RUNTIME
+  - variable: SMTP_PORT
+    value: "587"
+    availability:
+      - RUNTIME
+  - variable: SMTP_USER
+    value: support@loomrockland.org
+    availability:
+      - RUNTIME
+  - variable: MAIL_FROM
+    value: LOOM Rockland <support@loomrockland.org>
+    availability:
+      - RUNTIME
+  - variable: MAIL_TO
+    value: support@loomrockland.org
+    availability:
+      - RUNTIME
+
+  # SMTP password = a Google "App Password" (16 chars) for the support@ account
+  # (requires 2-Step Verification on that account). To turn email ON:
+  #   firebase apphosting:secrets:set smtp-pass         # paste the app password
   #   firebase apphosting:secrets:grantaccess smtp-pass
-  # If these are left unset, submissions still work — the email is just skipped.
-  #
-  # - variable: SMTP_HOST      # e.g. smtp.gmail.com / smtp-relay.gmail.com / smtp.resend.com
-  #   value: smtp.gmail.com
-  #   availability: [RUNTIME]
-  # - variable: SMTP_PORT
-  #   value: "587"
-  #   availability: [RUNTIME]
-  # - variable: SMTP_USER      # SMTP username (often the sending address)
-  #   value: support@loomrockland.org
-  #   availability: [RUNTIME]
-  # - variable: MAIL_FROM      # From header
-  #   value: LOOM Rockland <support@loomrockland.org>
-  #   availability: [RUNTIME]
-  # - variable: MAIL_TO        # Recipient (defaults to support@loomrockland.org)
-  #   value: support@loomrockland.org
-  #   availability: [RUNTIME]
-  # - variable: SMTP_PASS      # SMTP password / app password / API key (secret)
+  # then UNCOMMENT the three lines below and redeploy.
+  # - variable: SMTP_PASS
   #   secret: smtp-pass
-  #   availability: [RUNTIME]
+  #   availability:
+  #     - RUNTIME
